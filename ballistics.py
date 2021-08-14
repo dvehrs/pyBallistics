@@ -61,6 +61,9 @@ def solve(drag_function, drag_coefficient, vi, sight_height, shooting_angle, zer
         vx = vx + dt*dvx + dt*gx
         vy = vy + dt*dvy + dt*gy
 
+        logger.info("n: {}". format(n))
+        logger.info("x/3: {}". format(x/3))
+
         if x/3 >= n:
 
             if x > 0:
@@ -91,5 +94,6 @@ def solve(drag_function, drag_coefficient, vi, sight_height, shooting_angle, zer
             break
 
         t = t + dt
+        logger.info("time {}". format(t))
 
     return hold_overs
