@@ -9,7 +9,11 @@ import utils
 from holdover import holdover
 from points import points
 
+import logging
+
 def solve(range_max, drag_function, drag_coefficient, vi, sight_height, shooting_angle, zero_angle, wind_speed, wind_angle):
+
+    logger = logging.getLogger()
 
     t = 0
     dt = 0
@@ -73,19 +77,26 @@ def solve(range_max, drag_function, drag_coefficient, vi, sight_height, shooting
 
         if STEP in interval_combined:
             range_yards = '{:.2f}'.format(round(STEP/3, 2))
-            print("range_yards {}".format(range_yards))
+#            print("range_yards {}".format(range_yards))
+            logger.info("range_yards {}".format(range_yards))
             range_meters = '{:.2f}'.format(round(STEP/3.2808, 2))
-            print("range_meters {}".format(range_meters))
+#            print("range_meters {}".format(range_meters))
+            logger.info("range_meters {}".format(range_meters))
             moa_correction = -angles.rad_to_moa(math.atan(y / x))
-            print("moa_correction {}". format(moa_correction))
+#            print("moa_correction {}". format(moa_correction))
+            logger.info("moa_correction {}". format(moa_correction))
             mil_correction = utils.moaToMil(moa_correction)
-            print("mil_correction {}".format(mil_correction))
+#            print("mil_correction {}".format(mil_correction))
+            logger.info("mil_correction {}". format(mil_correction))
             path_inches = y*12
-            print("path_inches {}". format(path_inches))
+#            print("path_inches {}". format(path_inches))
+            logger.info("path_inches {}". format(path_inches))
             impact_in = utils.moaToInch(moa_correction, x)
             seconds = t+dt
-            print("seconds {}". format(seconds))
-            print("velocity {}", format(v))
+#            print("seconds {}". format(seconds))
+            logger.info("seconds {}". format(seconds))
+#            print("velocity {}", format(v))
+            logger.info("velocity {}". format(v))
             hold_overs.add_point(
                 holdover(range_yards, range_meters, moa_correction, mil_correction, impact_in, path_inches, seconds, v))
 

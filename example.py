@@ -3,6 +3,24 @@ from utils import get_incline_compensation
 from utils import get_cant_compensation
 import math
 
+import sys, logging
+
+#logLevel=logging.DEBUG
+logLevel=logging.INFO
+#logLevel=logging.WARNING
+
+# If logLevel is unset, we will only display the most serious messages.
+try:
+    logLevel
+except NameError:
+    logLevel=logging.CRITICAL
+finally:
+    logging.basicConfig(format='%(levelname)s : %(filename)s : %(funcName)s : %(lineno)4d : %(message)s', level=logLevel, handlers=[logging.StreamHandler(sys.stdout)])
+
+logging.debug('Example Debug Message')
+logging.info('Example Info Message')
+logging.warning('Example Warning Message')
+
 #hold_overs = calcBDC(400)
 #hold_overs = calcBDC(range = 400, zero_unit = "m")
 #hold_overs = calcBDC(zero_unit = "m", range = 400)

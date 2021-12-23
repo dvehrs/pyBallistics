@@ -2,10 +2,14 @@ import atmosphere
 import angles
 import ballistics
 import constants
+import logging
 
 
 def calcBDC(range_max = constants.BALLISTICS_COMPUTATION_MAX_YARDS, bc = 0.269, v = 3165, sh = 1.5, angle = 0,
             zero_dist = 50, zero_unit = 'y', drag_function = "G1"):
+
+    logger = logging.getLogger()
+
     k = 0
     # The wind speed in miles per hour.
     windspeed = 0
@@ -28,7 +32,8 @@ def calcBDC(range_max = constants.BALLISTICS_COMPUTATION_MAX_YARDS, bc = 0.269, 
     bc = atmosphere.atmosphere_correction(
         bc, altitude, barometer, temperature, relative_humidity)
 
-    print("bc {}".format(bc))
+    logger.info("bc {}".format(bc))
+    # print("bc {}".format(bc))
 
     # Convert zero range in meters to yards for calculating the zero angle
     if zero_unit.lower() == 'm':
