@@ -60,7 +60,7 @@ def solve(range_max, drag_function, drag_coefficient, vi, sight_height, shooting
     hold_overs = points()
 
     for STEP in step_combined:
-        print("STEP: {}".format(STEP))
+        logger.info("STEP: {}".format(STEP))
         vx1 = vx
         vy1 = vy
         v = math.pow(math.pow(vx, 2)+math.pow(vy, 2), 0.5)
