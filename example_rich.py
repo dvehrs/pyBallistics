@@ -4,6 +4,8 @@ from utils import get_cant_compensation
 from rich.console import Console
 from rich.table import Table
 import math
+import argparse
+import configparser
 
 import sys, logging
 
@@ -23,16 +25,62 @@ logging.debug('Example Debug Message')
 logging.info('Example Info Message')
 logging.warning('Example Warning Message')
 
+config = configparser.RawConfigParser()
+config.read('./ConfigurationFiles/22lr-CCI-Standard-Velocity.cfg')
+
+buildconf = dict(config.items('Base'))
+#print(buildconf)
+
+if 'range max' in buildconf:
+    buildconf['range max'] = int(buildconf['range max'])
+else:
+    buildconf['range max'] = 600
+
+if 'ballistic coefficient' in buildconf:
+    buildconf['ballistic coefficient'] = float(buildconf['ballistic coefficient'])
+else:
+    buildconf['ballistic coefficient'] = 0.269
+
+if 'velocity - muzzle' in buildconf:
+    buildconf['velocity - muzzle'] = int(buildconf['velocity - muzzle'])
+else:
+    buildconf['velocity - muzzle'] = 3165
+
+if 'site height' in buildconf:
+    buildconf['site height'] = float(buildconf['site height'])
+else:
+    buildconf['site height'] = 1.5
+
+if 'angle - shooting' in buildconf:
+    buildconf['angle - shooting'] = int(buildconf['angle - shooting'])
+else:
+    buildconf['angle - shooting'] = 0
+
+if 'zero - distance' in buildconf:
+    buildconf['zero - distance'] = int(buildconf['zero - distance'])
+else:
+    buildconf['zero - distance'] = 50
+
+if 'zero - unit' not in buildconf:
+    buildconf['zero - unit'] = 'y'
+
+if 'drag function' not in buildconf:
+    buildconf['drag function'] = 'G1'
+
 # Dictionary for Basic configuration Options
-buildconf = {}
-buildconf['range max'] = 150
-buildconf['ballistic coefficient'] = 0.120
-buildconf['velocity - muzzle'] = 1070
-buildconf['site height'] = 2
-buildconf['angle - shooting'] = 0
-buildconf['zero - distance'] = 50
-buildconf['zero - units'] = 'y'
-buildconf['drag function'] = 'G1'
+##buildconf = {}
+#buildconf['range max'] = 150
+##buildconf['ballistic coefficient'] = 0.120
+#buildconf['velocity - muzzle'] = 1070
+#buildconf['site height'] = 2
+#buildconf['angle - shooting'] = 0
+#buildconf['zero - distance'] = 50
+#buildconf['zero - unit'] = 'y'
+#buildconf['drag function'] = 'G1'
+#print(buildconf)
+
+#exit()
+#quit()
 
 #hold_overs = calcBDC(400)
 #configuration, hold_overs = calcBDC(range_max = 400, zero_unit = "m")
@@ -75,64 +123,6 @@ console = Console()
 #
 #console.print(alltable)
 #print()
-#
-## Print Configuration Table
-#conftable = Table(title="Configuration")
-#conftable.add_column("Key", justify="left", no_wrap=True)
-#conftable.add_column("Value", justify="left", no_wrap=True)
-#for item in sorted(configuration):
-#    conftable.add_row(item, str(configuration[item]))
-#
-#console.print(conftable)
-#print()
-#
-#yardstable = Table(title="Whole Yards Only")
-#yardstable.add_column("Yards", justify="right", no_wrap=True)
-#yardstable.add_column("Drop - Inches", justify="right", no_wrap=True)
-#yardstable.add_column("Drop - MOA", justify="right", no_wrap=True)
-#yardstable.add_column("Drop - Mils", justify="right", no_wrap=True)
-#yardstable.add_column("Time", justify="right", no_wrap=True)
-#yardstable.add_column("Velocity", justify="right", no_wrap=True)
-#for point in hold_overs.points:
-#    if float(point.yards).is_integer():
-#        pi = '{:.3f}'.format(round(point.path_inches, 3))
-#        moac = '{:.2f}'.format(round(point.moa_correction, 2))
-#        milc = '{:.2f}'.format(round(point.mil_correction, 2))
-#        stime = '{:.3f}'.format(round(point.seconds, 3))
-#        vel = '{:.2f}'.format(round(point.velocity, 2))
-#        yardstable.add_row(point.yards, pi, moac, milc, stime, vel)
-#
-#console.print(yardstable)
-#print()
-#
-## Print Configuration Table
-#conftable = Table(title="Configuration")
-#conftable.add_column("Key", justify="left", no_wrap=True)
-#conftable.add_column("Value", justify="left", no_wrap=True)
-#for item in sorted(configuration):
-#    conftable.add_row(item, str(configuration[item]))
-#
-#console.print(conftable)
-#print()
-#
-#meterstable = Table(title="Whole Meters Only")
-#meterstable.add_column("Meters", justify="right", no_wrap=True)
-#meterstable.add_column("Drop - Inches", justify="right", no_wrap=True)
-#meterstable.add_column("Drop - MOA", justify="right", no_wrap=True)
-#meterstable.add_column("Drop - Mils", justify="right", no_wrap=True)
-#meterstable.add_column("Time", justify="right", no_wrap=True)
-#meterstable.add_column("Velocity", justify="right", no_wrap=True)
-#for point in hold_overs.points:
-#    if float(point.meters).is_integer():
-#        if (float(point.meters) / 5).is_integer():
-#            pi = '{:.3f}'.format(round(point.path_inches, 3))
-#            moac = '{:.2f}'.format(round(point.moa_correction, 2))
-#            milc = '{:.2f}'.format(round(point.mil_correction, 2))
-#            stime = '{:.3f}'.format(round(point.seconds, 3))
-#            vel = '{:.2f}'.format(round(point.velocity, 2))
-#            meterstable.add_row(point.meters, pi, moac, milc, stime, vel)
-#
-#console.print(meterstable)
 
 print()
 print()

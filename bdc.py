@@ -42,8 +42,8 @@ def calcBDC(buildconf):
     else:
         zero_dist = 50
 
-    if 'zero - units' in buildconf:
-        zero_unit = buildconf['zero - units']
+    if 'zero - unit' in buildconf:
+        zero_unit = buildconf['zero - unit']
     else:
         zero_unit = 'y'
 
