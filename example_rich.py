@@ -6,6 +6,7 @@ from rich.table import Table
 import math
 import argparse
 import configparser
+import os.path
 
 import sys, logging
 
@@ -25,10 +26,18 @@ logging.debug('Example Debug Message')
 logging.info('Example Info Message')
 logging.warning('Example Warning Message')
 
-config = configparser.RawConfigParser()
-config.read('./ConfigurationFiles/22lr-CCI-Standard-Velocity.cfg')
+parser = argparse.ArgumentParser()
+parser.add_argument('-c', '--conffile', type=str, dest='myconffile')
+args = parser.parse_args()
 
-buildconf = dict(config.items('Base'))
+if args.myconffile is not None and os.path.exists(args.myconffile):
+    config = configparser.RawConfigParser()
+#    config.read('./ConfigurationFiles/22lr-CCI-Standard-Velocity.cfg')
+    config.read(args.myconffile)
+    buildconf = dict(config.items('Base'))
+else:
+    buildconf = {}
+
 #print(buildconf)
 
 if 'range max' in buildconf:
