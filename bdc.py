@@ -5,10 +5,53 @@ import constants
 import logging
 
 
-def calcBDC(range_max = constants.BALLISTICS_COMPUTATION_MAX_YARDS, bc = 0.269, v = 3165, sh = 1.5, angle = 0,
-            zero_dist = 50, zero_unit = 'y', drag_function = "G1"):
+def calcBDC(buildconf):
+#def calcBDC(range_max = constants.BALLISTICS_COMPUTATION_MAX_YARDS, bc = 0.269, v = 3165, sh = 1.5, angle = 0,
+#            zero_dist = 50, zero_unit = 'y', drag_function = "G1"):
 
     logger = logging.getLogger()
+
+    # Test for configuration items in buildconf, and set to default if not found
+    if 'range max' in buildconf:
+        range_max = buildconf['range max']
+    else:
+        range_max = constants.BALLISTICS_COMPUTATION_MAX_YARDS
+
+    if 'ballistic coefficient' in buildconf:
+        bc = buildconf['ballistic coefficient']
+    else:
+        bc = 0.269
+
+    if 'velocity - muzzle' in buildconf:
+        v = buildconf['velocity - muzzle']
+    else:
+        v = 3165
+
+    if 'site height' in buildconf:
+        sh  = buildconf['site height']
+    else:
+        sh = 1.5
+
+    if 'angle - shooting' in buildconf:
+        angle = buildconf['angle - shooting']
+    else:
+        angle = 0
+
+    if 'zero - distance' in buildconf:
+        zero_dist = buildconf['zero - distance']
+    else:
+        zero_dist = 50
+
+    if 'zero - units' in buildconf:
+        zero_unit = buildconf['zero - units']
+    else:
+        zero_unit = 'y'
+
+    if 'drag function' in buildconf:
+        drag_function = buildconf['drag function']
+    else:
+        drag_function = 'G1'
+
 
     # Declare empty dictionary to hold configuration settings
     configuration = {}
