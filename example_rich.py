@@ -70,38 +70,35 @@ if 'zero - distance' in buildconf:
 else:
     buildconf['zero - distance'] = 50
 
-if 'zero - unit' not in buildconf:
+if 'zero - unit' in buildconf:
+    buildconf['zero - unit'] = buildconf['zero - unit'].lower()
+else:
     buildconf['zero - unit'] = 'y'
 
-if 'drag function' not in buildconf:
+if 'drag function' in buildconf:
+    buildconf['drag function'] = buildconf['drag function'].upper()
+else:
     buildconf['drag function'] = 'G1'
 
-# Dictionary for Basic configuration Options
-##buildconf = {}
-#buildconf['range max'] = 150
-##buildconf['ballistic coefficient'] = 0.120
-#buildconf['velocity - muzzle'] = 1070
-#buildconf['site height'] = 2
-#buildconf['angle - shooting'] = 0
-#buildconf['zero - distance'] = 50
-#buildconf['zero - unit'] = 'y'
-#buildconf['drag function'] = 'G1'
-#print(buildconf)
+if args.myconffile is not None and os.path.exists(args.myconffile):
+    config = configparser.RawConfigParser()
+#    config.read('./ConfigurationFiles/22lr-CCI-Standard-Velocity.cfg')
+    config.read(args.myconffile)
+    displayconf = dict(config.items('Display'))
+else:
+    displayconf = {}
 
-#exit()
-#quit()
+if 'rangetype' in displayconf:
+    displayconf['rangetype'] = displayconf['rangetype'].lower()
+else:
+    displayconf['rangetype'] = 'yards'
 
-#hold_overs = calcBDC(400)
-#configuration, hold_overs = calcBDC(range_max = 400, zero_unit = "m")
-#hold_overs = calcBDC(zero_unit = "m", range = 400)
-#configuration, hold_overs = calcBDC(range_max = 100)
-#configuration, hold_overs = calcBDC(range_max = 200)
-#configuration, hold_overs = calcBDC(range_max = 300, zero_dist = 50)
-#configuration, hold_overs = calcBDC(range_max = 300, zero_dist= 190)
-#configuration, hold_overs = calcBDC(range_max = 200, zero_dist = 50, v = 1050, bc = 0.120)
-#configuration, hold_overs = calcBDC(range_max = 200, zero_dist = 50, bc = 0.120)
+if 'interval' in displayconf:
+    displayconf['interval'] = int(displayconf['interval'])
+else:
+    displayconf['interval'] = 50
+
 #configuration, hold_overs = calcBDC()
-
 configuration, hold_overs = calcBDC(buildconf)
 
 console = Console()
@@ -150,23 +147,17 @@ for item in sorted(configuration):
 console.print(conftable)
 print()
 
-rangetype =  'yards'
-#rangetype = 'meters'
-#rangetype = 'both'
 
-interval = 5
-
-
-if rangetype == 'both':
+if displayconf['rangetype'] == 'both':
     combinedtable = Table(title="Both Whole Meters and Yards")
-if rangetype == 'yards':
+if displayconf['rangetype'] == 'yards':
     combinedtable = Table(title="Whole Yards Only")
-elif rangetype == 'meters':
+elif displayconf['rangetype'] == 'meters':
     combinedtable = Table(title="Whole Meters Only")
 
-if rangetype in ['both', 'yards']:
+if displayconf['rangetype'] in ['both', 'yards']:
     combinedtable.add_column("Yards", justify="right", no_wrap=True)
-if rangetype in ['both', 'meters']:
+if displayconf['rangetype'] in ['both', 'meters']:
     combinedtable.add_column("Meters", justify="right", no_wrap=True)
 
 combinedtable.add_column("Drop - Inches", justify="right", no_wrap=True)
@@ -177,16 +168,16 @@ combinedtable.add_column("Velocity", justify="right", no_wrap=True)
 
 
 for point in hold_overs.points:
-    if (rangetype == 'yards' and float(point.yards).is_integer()) or \
-       (rangetype == 'meters' and float(point.meters).is_integer()) or \
-       (rangetype == 'both' and (float(point.yards).is_integer() or \
+    if (displayconf['rangetype'] == 'yards' and float(point.yards).is_integer()) or \
+       (displayconf['rangetype'] == 'meters' and float(point.meters).is_integer()) or \
+       (displayconf['rangetype'] == 'both' and (float(point.yards).is_integer() or \
                                  float(point.meters).is_integer())):
-        if ((float(point.yards) / interval).is_integer() or \
-            (float(point.meters) / interval).is_integer()):
+        if ((float(point.yards) / displayconf['interval']).is_integer() or \
+            (float(point.meters) / displayconf['interval']).is_integer()):
             fieldlist = list()
-            if rangetype in ['both', 'yards']:
+            if displayconf['rangetype'] in ['both', 'yards']:
                 fieldlist.append(point.yards)
-            if rangetype in ['both', 'meters']:
+            if displayconf['rangetype'] in ['both', 'meters']:
                 fieldlist.append(point.meters)
             pi = '{:.3f}'.format(round(point.path_inches, 3))
             fieldlist.append(pi)
