@@ -27,8 +27,8 @@ def calcBDC(buildconf):
     else:
         v = 3165
 
-    if 'site height' in buildconf:
-        sh  = buildconf['site height']
+    if 'sight height' in buildconf:
+        sh  = buildconf['sight height']
     else:
         sh = 1.5
 
@@ -78,7 +78,7 @@ def calcBDC(buildconf):
     configuration['range max'] = range_max
     configuration['bc input'] = bc
     configuration['velocity'] = v
-    configuration['site height'] = sh
+    configuration['sight height'] = sh
     configuration['angle - shooting'] = angle
     configuration['zero distance'] = zero_dist
     configuration['zero unit'] = zero_unit

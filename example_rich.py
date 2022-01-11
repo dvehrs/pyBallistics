@@ -55,10 +55,10 @@ if 'velocity - muzzle' in buildconf:
 else:
     buildconf['velocity - muzzle'] = 3165
 
-if 'site height' in buildconf:
-    buildconf['site height'] = float(buildconf['site height'])
+if 'sight height' in buildconf:
+    buildconf['sight height'] = float(buildconf['sight height'])
 else:
-    buildconf['site height'] = 1.5
+    buildconf['sight height'] = 1.5
 
 if 'angle - shooting' in buildconf:
     buildconf['angle - shooting'] = int(buildconf['angle - shooting'])
