@@ -65,6 +65,21 @@ if 'angle - shooting' in buildconf:
 else:
     buildconf['angle - shooting'] = 0
 
+if 'angle - bore' in buildconf:
+    if buildconf['angle - bore'].lower() == 'none':
+        buildconf['angle - bore'] = None
+    print(type(buildconf['angle - bore']))
+    print("angle - bore: %s" % buildconf['angle - bore'])
+    if buildconf['angle - bore'] is not None:
+        if buildconf['angle - bore'].replace('.','',1).isdigit():
+            buildconf['angle - bore'] = float(buildconf['angle - bore'])
+        print(type(buildconf['angle - bore']))
+        if not isinstance(buildconf['angle - bore'], float):
+            print("Configuration file error:  angle bore is neither None or Number (floating point)")
+            exit()
+else:
+    buildconf['angle - bore'] = None
+
 if 'zero - distance' in buildconf:
     buildconf['zero - distance'] = int(buildconf['zero - distance'])
 else:

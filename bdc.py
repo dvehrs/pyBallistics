@@ -37,6 +37,11 @@ def calcBDC(buildconf = {}):
     else:
         angle = 0
 
+    if 'angle - bore' in buildconf:
+        zeroangle = buildconf['angle - bore']
+    else:
+        zeroangle = None
+
     if 'zero - distance' in buildconf:
         zero_dist = buildconf['zero - distance']
     else:
@@ -98,7 +103,12 @@ def calcBDC(buildconf = {}):
     # to us, but is required for making a full ballistic solution.
     # It is left here to allow for zero-ing at altitudes (bc) different from the
     # final solution, or to allow for zero's other than 0" (ex: 3" high at 100 yds)
-    zeroangle = angles.zero_angle(drag_function, bc, v, sh, zero_dist, 0)
+    #
+    # Note: Added test for zeroangle being None to allow the user to specify a
+    # given zero angle for the bore to be able to compare cartridges with
+    # different bc or velocities.
+    if zeroangle is None:
+        zeroangle = angles.zero_angle(drag_function, bc, v, sh, zero_dist, 0)
 
     configuration['angle - bore'] = zeroangle
 
