@@ -5,7 +5,7 @@ import constants
 import logging
 
 
-def calcBDC(buildconf):
+def calcBDC(buildconf = {}):
 #def calcBDC(range_max = constants.BALLISTICS_COMPUTATION_MAX_YARDS, bc = 0.269, v = 3165, sh = 1.5, angle = 0,
 #            zero_dist = 50, zero_unit = 'y', drag_function = "G1"):
 
@@ -56,15 +56,19 @@ def calcBDC(buildconf):
     # Declare empty dictionary to hold configuration settings
     configuration = {}
 
+    configuration['range max'] = range_max
+    configuration['bc input'] = bc
+    configuration['velocity'] = v
+    configuration['sight height'] = sh
+    configuration['angle - shooting'] = angle
+    configuration['zero distance'] = zero_dist
+    configuration['zero unit'] = zero_unit
+
     k = 0
     # The wind speed in miles per hour.
     windspeed = 0
     # The wind angle (0=headwind, 90=right to left, 180=tailwind, 270/-90=left to right)
     windangle = 0
-
-    # Numbers for 22lr CCI Standard Velocity
-#    bc = 0.122
-#    v = 1070
 
     altitude = 0
     barometer = 29.59
@@ -74,14 +78,6 @@ def calcBDC(buildconf):
     # If we wish to use the weather correction features, we need to
     # Correct the BC for any weather conditions.  If we want standard conditions,
     # then we can just leave this commented out.
-
-    configuration['range max'] = range_max
-    configuration['bc input'] = bc
-    configuration['velocity'] = v
-    configuration['sight height'] = sh
-    configuration['angle - shooting'] = angle
-    configuration['zero distance'] = zero_dist
-    configuration['zero unit'] = zero_unit
 
     bc = atmosphere.atmosphere_correction(
         bc, altitude, barometer, temperature, relative_humidity)
