@@ -194,7 +194,11 @@ for point in hold_overs.points:
                 fieldlist.append(point.yards)
             if displayconf['rangetype'] in ['both', 'meters']:
                 fieldlist.append(point.meters)
+            # Consider reducing this to two decimal places as there is a minor
+            # difference exposed when using three decimal places and specifying
+            # a fixed bore (zero) angle
             pi = '{:.3f}'.format(round(point.path_inches, 3))
+#            pi = '{:.2f}'.format(round(point.path_inches, 3))
             fieldlist.append(pi)
             moac = '{:.2f}'.format(round(point.moa_correction, 2))
             fieldlist.append(moac)
