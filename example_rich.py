@@ -28,17 +28,29 @@ logging.warning('Example Warning Message')
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-c', '--conffile', type=str, dest='myconffile')
+parser.add_argument('-s', '--sharedconf', type=str, dest='sharedconf')
 args = parser.parse_args()
 
-if args.myconffile is not None and os.path.exists(args.myconffile):
+if args.sharedconf is not None and os.path.exists(args.sharedconf):
     config = configparser.RawConfigParser()
-#    config.read('./ConfigurationFiles/22lr-CCI-Standard-Velocity.cfg')
-    config.read(args.myconffile)
-    buildconf = dict(config.items('Base'))
+    config.read(args.sharedconf)
+    buildconf = dict(config.items('Common'))
 else:
     buildconf = {}
 
+if args.myconffile is not None and os.path.exists(args.myconffile):
+    config = configparser.RawConfigParser()
+    config.read(args.myconffile)
+    buildconf = {**buildconf, **dict(config.items('Base'))}
+else:
+    if buildconf is not None:
+        buildconf = {}
+
 #print(buildconf)
+#quit()
+
+if 'ammunition name' not in buildconf:
+    buildconf['ammunition name'] = "Configuration"
 
 if 'range max' in buildconf:
     buildconf['range max'] = int(buildconf['range max'])
@@ -68,12 +80,12 @@ else:
 if 'angle - bore' in buildconf:
     if buildconf['angle - bore'].lower() == 'none':
         buildconf['angle - bore'] = None
-    print(type(buildconf['angle - bore']))
-    print("angle - bore: %s" % buildconf['angle - bore'])
+#    print(type(buildconf['angle - bore']))
+#    print("angle - bore: %s" % buildconf['angle - bore'])
     if buildconf['angle - bore'] is not None:
         if buildconf['angle - bore'].replace('.','',1).isdigit():
             buildconf['angle - bore'] = float(buildconf['angle - bore'])
-        print(type(buildconf['angle - bore']))
+#        print(type(buildconf['angle - bore']))
         if not isinstance(buildconf['angle - bore'], float):
             print("Configuration file error:  angle bore is neither None or Number (floating point)")
             exit()
@@ -94,6 +106,27 @@ if 'drag function' in buildconf:
     buildconf['drag function'] = buildconf['drag function'].upper()
 else:
     buildconf['drag function'] = 'G1'
+
+if 'altitude' in buildconf:
+    buildconf['altitude'] = int(buildconf['altitude'])
+
+if 'barometer' in buildconf:
+    buildconf['barometer'] = float(buildconf['barometer'])
+
+if 'temperature' in buildconf:
+    buildconf['temperature'] = float(buildconf['temperature'])
+
+if 'humidity - relative' in buildconf:
+    buildconf['humidity - relative'] = float(buildconf['humidity - relative'])
+
+if 'wind - speed' in buildconf:
+    buildconf['wind - speed'] = float(buildconf['wind - speed'])
+
+if 'wind - angle' in buildconf:
+    buildconf['wind - angle'] = int(buildconf['wind - angle'])
+
+
+
 
 if args.myconffile is not None and os.path.exists(args.myconffile):
     config = configparser.RawConfigParser()
@@ -145,15 +178,12 @@ console = Console()
 #console.print(alltable)
 #print()
 
-print()
-print()
-print()
-print()
-print("locals test")
-print()
-
 # Print Configuration Table
-conftable = Table(title="Configuration")
+if buildconf['ammunition name'] != "Configuration":
+    conftable = Table(title = " - ".join([buildconf['ammunition name'], \
+                                          "Configuration"]))
+else:
+    conftable = Table(title = "Configuration")
 conftable.add_column("Key", justify="left", no_wrap=True)
 conftable.add_column("Value", justify="left", no_wrap=True)
 for item in sorted(configuration):
@@ -164,11 +194,26 @@ print()
 
 
 if displayconf['rangetype'] == 'both':
-    combinedtable = Table(title="Both Whole Meters and Yards")
+    if buildconf['ammunition name'] != "Configuration":
+        tablename = " - ".join([buildconf['ammunition name'], \
+                               "Both Whole Meters and Yards"])
+    else:
+        tablename = "Both Whole Meters and Yards"
+    combinedtable = Table(title = tablename)
 if displayconf['rangetype'] == 'yards':
-    combinedtable = Table(title="Whole Yards Only")
+    if buildconf['ammunition name'] != "Configuration":
+        tablename = " - ".join([buildconf['ammunition name'], \
+                               "Whole Yards Only"])
+    else:
+        tablename = "Whole Yards Only"
+    combinedtable = Table(title = tablename)
 elif displayconf['rangetype'] == 'meters':
-    combinedtable = Table(title="Whole Meters Only")
+    if buildconf['ammunition name'] != "Configuration":
+        tablename = " - ".join([buildconf['ammunition name'], \
+                               "Whole Meters Only"])
+    else:
+        tablename = "Whole Meters Only"
+    combinedtable = Table(title = tablename)
 
 if displayconf['rangetype'] in ['both', 'yards']:
     combinedtable.add_column("Yards", justify="right", no_wrap=True)

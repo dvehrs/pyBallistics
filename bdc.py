@@ -57,6 +57,37 @@ def calcBDC(buildconf = {}):
     else:
         drag_function = 'G1'
 
+    if 'altitude' in buildconf:
+        altitude = buildconf['altitude']
+    else:
+        altitude = 0
+
+    if 'barometer' in buildconf:
+        barometer = buildconf['barometer']
+    else:
+        barometer = 29.59
+
+    if 'temperature' in buildconf:
+        temperature = buildconf['temperature']
+    else:
+        temperature = 59
+
+    if 'humidity - relative' in buildconf:
+        relative_humidity = buildconf['humidity - relative']
+    else:
+        relative_humidity = 0.7
+
+    if 'wind - speed' in buildconf:
+        windspeed = buildconf['wind - speed']
+    else:
+        windspeed = 0
+
+    if 'wind - angle' in buildconf:
+        windangle = buildconf['wind - angle']
+    else:
+        windangle = 0
+
+
 
     # Declare empty dictionary to hold configuration settings
     configuration = {}
@@ -68,17 +99,23 @@ def calcBDC(buildconf = {}):
     configuration['angle - shooting'] = angle
     configuration['zero distance'] = zero_dist
     configuration['zero unit'] = zero_unit
+    configuration['altitude'] = altitude
+    configuration['temperature'] = temperature
+    configuration['humidity - relative'] = relative_humidity
+    configuration['wind - speed'] = windspeed
+    configuration['wind - angle'] = windangle
 
     k = 0
     # The wind speed in miles per hour.
-    windspeed = 0
-    # The wind angle (0=headwind, 90=right to left, 180=tailwind, 270/-90=left to right)
-    windangle = 0
+#    windspeed = 0
+#    # The wind angle (0=headwind, 90=right to left, 180=tailwind, 270/-90=left to right)
+#    windangle = 0
 
-    altitude = 0
-    barometer = 29.59
-    temperature = 59
-    relative_humidity = 0.7
+#    altitude = 6000
+##    altitude = 0
+#    barometer = 29.59
+#    temperature = 59
+#    relative_humidity = 0.7
 
     # If we wish to use the weather correction features, we need to
     # Correct the BC for any weather conditions.  If we want standard conditions,
