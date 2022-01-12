@@ -178,10 +178,11 @@ console = Console()
 #console.print(alltable)
 #print()
 
+console.print()
+
 # Print Configuration Table
 if buildconf['ammunition name'] != "Configuration":
-    conftable = Table(title = " - ".join([buildconf['ammunition name'], \
-                                          "Configuration"]))
+    conftable = Table(title = buildconf['ammunition name'])
 else:
     conftable = Table(title = "Configuration")
 conftable.add_column("Key", justify="left", no_wrap=True)
@@ -190,27 +191,24 @@ for item in sorted(configuration):
     conftable.add_row(item, str(configuration[item]))
 
 console.print(conftable)
-print()
+console.print()
 
 
 if displayconf['rangetype'] == 'both':
     if buildconf['ammunition name'] != "Configuration":
-        tablename = " - ".join([buildconf['ammunition name'], \
-                               "Both Whole Meters and Yards"])
+        tablename = buildconf['ammunition name']
     else:
         tablename = "Both Whole Meters and Yards"
     combinedtable = Table(title = tablename)
 if displayconf['rangetype'] == 'yards':
     if buildconf['ammunition name'] != "Configuration":
-        tablename = " - ".join([buildconf['ammunition name'], \
-                               "Whole Yards Only"])
+        tablename = buildconf['ammunition name']
     else:
         tablename = "Whole Yards Only"
     combinedtable = Table(title = tablename)
 elif displayconf['rangetype'] == 'meters':
     if buildconf['ammunition name'] != "Configuration":
-        tablename = " - ".join([buildconf['ammunition name'], \
-                               "Whole Meters Only"])
+        tablename = buildconf['ammunition name']
     else:
         tablename = "Whole Meters Only"
     combinedtable = Table(title = tablename)
