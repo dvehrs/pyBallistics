@@ -6,7 +6,7 @@ def fpsToMps(fps):
          Outputs: none
          Returns: bullet velocity in meters per second
     """
-    return inch * 0.3048
+    return fps * 0.3048
 
 def inchToCm(inch):
     """ This function coverts from inches to centimeters.
