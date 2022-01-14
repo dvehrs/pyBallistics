@@ -1,5 +1,13 @@
 import math
 
+def fpsToMps(fps):
+    """ This function coverts from inches to centimeters.
+         Inputs:  fps = bullet velocity in feet per second
+         Outputs: none
+         Returns: bullet velocity in meters per second
+    """
+    return inch * 0.3048
+
 def inchToCm(inch):
     """ This function coverts from inches to centimeters.
          Inputs:  inch = length in inches
