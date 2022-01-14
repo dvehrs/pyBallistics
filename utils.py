@@ -1,7 +1,8 @@
 import math
 
 def fpsToMps(fps):
-    """ This function coverts from inches to centimeters.
+    """ This function coverts from feet per second to
+        meters per second
          Inputs:  fps = bullet velocity in feet per second
          Outputs: none
          Returns: bullet velocity in meters per second
@@ -15,6 +16,15 @@ def inchToCm(inch):
          Returns: length in centimeters.
     """
     return inch * 2.54
+
+def kineticEnergy(vel, weight):
+    """ This function returns kinetic energy of a projectile
+         Inputs:  vel = velocity in feet per second
+                  weight = bullet weight in grains
+         Outputs: none
+         Returns: length in centimeters.
+    """
+    return ((weight*(vel^2))/450800)
 
 def moaToMil(moa):
     """ This function us used
