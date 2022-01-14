@@ -5,8 +5,8 @@ def inchToCm(inch):
          Inputs:  inch = length in inches
          Outputs: none
          Returns: length in centimeters.
-     """
-     return inch * 2.54
+    """
+    return inch * 2.54
 
 def moaToMil(moa):
     """ This function us used
