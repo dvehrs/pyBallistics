@@ -33,11 +33,11 @@ def solve(range_max, drag_function, drag_coefficient, vi, sight_height, shooting
 #    r = math.floor(constants.BALLISTICS_COMPUTATION_MAX_YARDS*3)
     r = math.floor((range_max+1)*3)
 
-    # Convert wind speed to inches per second.
-    # 1 mile == 5280 feet
-    # 3600 seconds in one hour
-    # (1 *  5280) * 12 / 3600 = 17.6
-    wind_ips = wind_speed * 17.6
+#    # Convert wind speed to inches per second.
+#    # 1 mile == 5280 feet
+#    # 3600 seconds in one hour
+#    # (1 *  5280) * 12 / 3600 = 17.6
+#    wind_ips = wind_speed * 17.6
 
     step_feet = [*range(1, r, 1)]
     step_meters = [*np.arange(0.8202, r, 0.8202)]
@@ -49,6 +49,9 @@ def solve(range_max, drag_function, drag_coefficient, vi, sight_height, shooting
 
     hwind = windage.headwind(wind_speed, wind_angle)
     cwind = windage.crosswind(wind_speed, wind_angle)
+
+    # Convert crosswind speed to inches per second.
+    cwind_ips = cwind * 17.6
 
     gy = constants.GRAVITY * \
         math.cos(angles.deg_to_rad((shooting_angle + zero_angle)))
@@ -119,7 +122,7 @@ def solve(range_max, drag_function, drag_coefficient, vi, sight_height, shooting
                          mil_correction, impact_in, path_inches, drift_inches, \
                          drift_moa, drift_mil, seconds, v))
 
-        z = z + ( wind_ips * (dt - ((STEP - x)/vi)))
+        z = z + ( cwind_ips * (dt - ((STEP - x)/vi)))
         # Compute position based on average velocity.
         y = y + dt * (vy+vy1)/2
         x = STEP
