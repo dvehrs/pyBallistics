@@ -121,9 +121,13 @@ if 'humidity - relative' in buildconf:
 
 if 'wind - speed' in buildconf:
     buildconf['wind - speed'] = float(buildconf['wind - speed'])
+else:
+    buildconf['wind - speed'] = 10
 
 if 'wind - angle' in buildconf:
     buildconf['wind - angle'] = int(buildconf['wind - angle'])
+else:
+    buildconf['wind - angle'] = 90
 
 
 
@@ -221,6 +225,9 @@ if displayconf['rangetype'] in ['both', 'meters']:
 combinedtable.add_column("Drop - Inches", justify="right", no_wrap=True)
 combinedtable.add_column("Drop - MOA", justify="right", no_wrap=True)
 combinedtable.add_column("Drop - Mils", justify="right", no_wrap=True)
+combinedtable.add_column("Drift - Inches", justify="right", no_wrap=True)
+combinedtable.add_column("Drift - MOA", justify="right", no_wrap=True)
+combinedtable.add_column("Drift - Mils", justify="right", no_wrap=True)
 combinedtable.add_column("Time", justify="right", no_wrap=True)
 combinedtable.add_column("Velocity", justify="right", no_wrap=True)
 
@@ -247,6 +254,12 @@ for point in hold_overs.points:
             fieldlist.append(moac)
             milc = '{:.2f}'.format(round(point.mil_correction, 2))
             fieldlist.append(milc)
+            dinch = '{:.3f}'.format(round(point.drift_inches, 3))
+            fieldlist.append(dinch)
+            dmoa = '{:.2f}'.format(round(point.drift_moa, 2))
+            fieldlist.append(dmoa)
+            dmil = '{:.2f}'.format(round(point.drift_mil, 2))
+            fieldlist.append(dmil)
             stime = '{:.3f}'.format(round(point.seconds, 3))
             fieldlist.append(stime)
             vel = '{:.2f}'.format(round(point.velocity, 2))

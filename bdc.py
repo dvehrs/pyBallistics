@@ -87,8 +87,6 @@ def calcBDC(buildconf = {}):
     else:
         windangle = 0
 
-
-
     # Declare empty dictionary to hold configuration settings
     configuration = {}
 
@@ -101,6 +99,7 @@ def calcBDC(buildconf = {}):
     configuration['zero unit'] = zero_unit
     configuration['altitude'] = altitude
     configuration['temperature'] = temperature
+    configuration['barometer'] = barometer
     configuration['humidity - relative'] = relative_humidity
     configuration['wind - speed'] = windspeed
     configuration['wind - angle'] = windangle

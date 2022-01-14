@@ -27,10 +27,17 @@ def solve(range_max, drag_function, drag_coefficient, vi, sight_height, shooting
     dvy = 0
     x = 0
     y = 0
+    z = 0
 
     # Convert BALLISTICS_COMPUTATION_MAX_YARDS to feet
 #    r = math.floor(constants.BALLISTICS_COMPUTATION_MAX_YARDS*3)
     r = math.floor((range_max+1)*3)
+
+    # Convert wind speed to inches per second.
+    # 1 mile == 5280 feet
+    # 3600 seconds in one hour
+    # (1 *  5280) * 12 / 3600 = 17.6
+    wind_ips = wind_speed * 17.6
 
     step_feet = [*range(1, r, 1)]
     step_meters = [*np.arange(0.8202, r, 0.8202)]
@@ -75,6 +82,7 @@ def solve(range_max, drag_function, drag_coefficient, vi, sight_height, shooting
         vx = vx + dt*dvx + dt*gx
         vy = vy + dt*dvy + dt*gy
 
+
         if STEP in interval_combined:
             range_yards = '{:.2f}'.format(round(STEP/3, 2))
 #            print("range_yards {}".format(range_yards))
@@ -90,19 +98,31 @@ def solve(range_max, drag_function, drag_coefficient, vi, sight_height, shooting
             logger.info("mil_correction {}". format(mil_correction))
             path_inches = y*12
 #            print("path_inches {}". format(path_inches))
-            logger.info("path_inches {}". format(path_inches))
+            logger.info("path_inches {}".format(path_inches))
             impact_in = utils.moaToInch(moa_correction, x)
+            # Z already in inches, no need to convert.
+            drift_inches = z
+            logger.info("horizontal position inches {}".format(drift_inches))
+            # Need to remember to convert X to inches so that both are in the
+            # same unit of measurement.
+            drift_moa = angles.rad_to_moa(math.atan(z / (x*12)))
+            logger.info("drift MOA {}". format(drift_moa))
+            drift_mil = utils.moaToMil(drift_moa)
+            logger.info("drift MIL {}". format(drift_mil))
             seconds = t+dt
 #            print("seconds {}". format(seconds))
             logger.info("seconds {}". format(seconds))
 #            print("velocity {}", format(v))
             logger.info("velocity {}". format(v))
             hold_overs.add_point(
-                holdover(range_yards, range_meters, moa_correction, mil_correction, impact_in, path_inches, seconds, v))
+                holdover(range_yards, range_meters, moa_correction, \
+                         mil_correction, impact_in, path_inches, drift_inches, \
+                         drift_moa, drift_mil, seconds, v))
 
-        x = STEP
+        z = z + ( wind_ips * (dt - ((STEP - x)/vi)))
         # Compute position based on average velocity.
         y = y + dt * (vy+vy1)/2
+        x = STEP
 
         if (math.fabs(vy) > math.fabs(3*vx) or n >= constants.BALLISTICS_COMPUTATION_MAX_YARDS):
             break
