@@ -1,6 +1,8 @@
 from bdc import calcBDC
 from utils import get_incline_compensation
 from utils import get_cant_compensation
+from utils import fpsToMps
+from utils import inchToCm
 from rich.console import Console
 from rich.table import Table
 import math
@@ -222,14 +224,17 @@ if displayconf['rangetype'] in ['both', 'yards']:
 if displayconf['rangetype'] in ['both', 'meters']:
     combinedtable.add_column("Meters", justify="right", no_wrap=True)
 
-combinedtable.add_column("Drop - Inches", justify="right", no_wrap=True)
+combinedtable.add_column("Drop - In.", justify="right", no_wrap=True)
+combinedtable.add_column("Drop - Cm.", justify="right", no_wrap=True)
 combinedtable.add_column("Drop - MOA", justify="right", no_wrap=True)
-combinedtable.add_column("Drop - Mils", justify="right", no_wrap=True)
-combinedtable.add_column("Drift - Inches", justify="right", no_wrap=True)
+combinedtable.add_column("Drop - Mil", justify="right", no_wrap=True)
+combinedtable.add_column("Drift - In.", justify="right", no_wrap=True)
+combinedtable.add_column("Drift - Cm.", justify="right", no_wrap=True)
 combinedtable.add_column("Drift - MOA", justify="right", no_wrap=True)
-combinedtable.add_column("Drift - Mils", justify="right", no_wrap=True)
+combinedtable.add_column("Drift - Mil", justify="right", no_wrap=True)
 combinedtable.add_column("Time", justify="right", no_wrap=True)
-combinedtable.add_column("Velocity", justify="right", no_wrap=True)
+combinedtable.add_column("Velocity - fps", justify="right", no_wrap=True)
+combinedtable.add_column("Velocity - mps", justify="right", no_wrap=True)
 
 
 for point in hold_overs.points:
@@ -250,20 +255,26 @@ for point in hold_overs.points:
             pi = '{:.3f}'.format(round(point.path_inches, 3))
 #            pi = '{:.2f}'.format(round(point.path_inches, 3))
             fieldlist.append(pi)
+            pc = '{:.3f}'.format(round(inchToCm(point.path_inches), 3))
+            fieldlist.append(pc)
             moac = '{:.2f}'.format(round(point.moa_correction, 2))
             fieldlist.append(moac)
             milc = '{:.2f}'.format(round(point.mil_correction, 2))
             fieldlist.append(milc)
             dinch = '{:.3f}'.format(round(point.drift_inches, 3))
             fieldlist.append(dinch)
+            dcent = '{:.3f}'.format(round(inchToCm(point.drift_inches), 3))
+            fieldlist.append(dcent)
             dmoa = '{:.2f}'.format(round(point.drift_moa, 2))
             fieldlist.append(dmoa)
             dmil = '{:.2f}'.format(round(point.drift_mil, 2))
             fieldlist.append(dmil)
             stime = '{:.3f}'.format(round(point.seconds, 3))
             fieldlist.append(stime)
-            vel = '{:.2f}'.format(round(point.velocity, 2))
-            fieldlist.append(vel)
+            velf = '{:.2f}'.format(round(point.velocity, 2))
+            fieldlist.append(velf)
+            velm = '{:.2f}'.format(round(fpsToMps(point.velocity), 2))
+            fieldlist.append(velm)
             combinedtable.add_row(*fieldlist)
 
 
