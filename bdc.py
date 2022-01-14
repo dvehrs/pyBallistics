@@ -91,18 +91,21 @@ def calcBDC(buildconf = {}):
     configuration = {}
 
     configuration['range max'] = range_max
-    configuration['bc input'] = bc
+    configuration['ballistic coefficint - input'] = bc
     configuration['velocity'] = v
-    configuration['sight height'] = sh
+    configuration['zero: sight height'] = str(sh)+" inches"
     configuration['angle - shooting'] = angle
-    configuration['zero distance'] = zero_dist
-    configuration['zero unit'] = zero_unit
-    configuration['altitude'] = altitude
-    configuration['temperature'] = temperature
-    configuration['barometer'] = barometer
-    configuration['humidity - relative'] = relative_humidity
-    configuration['wind - speed'] = windspeed
-    configuration['wind - angle'] = windangle
+    if zeroangle is None:
+        if zero_unit.lower() == 'm':
+            configuration['zero: distance'] = str(zero_dist)+" meters"
+        else:
+            configuration['zero: distance'] = str(zero_dist)+" yards"
+    configuration['local: altitude'] = altitude
+    configuration['local: temperature'] = temperature
+    configuration['local: barometer'] = barometer
+    configuration['local: relative humidity'] = relative_humidity
+    configuration['local: wind speed'] = windspeed
+    configuration['local: wind angle'] = windangle
 
     k = 0
     # The wind speed in miles per hour.
@@ -126,7 +129,7 @@ def calcBDC(buildconf = {}):
     logger.info("bc {}".format(bc))
     # print("bc {}".format(bc))
 
-    configuration['bc corrected'] = bc
+    configuration['ballistic coefficint - corrected'] = bc
 
     # Convert zero range in meters to yards for calculating the zero angle
     if zero_unit.lower() == 'm':
@@ -145,8 +148,10 @@ def calcBDC(buildconf = {}):
     # different bc or velocities.
     if zeroangle is None:
         zeroangle = angles.zero_angle(drag_function, bc, v, sh, zero_dist, 0)
+        configuration['zero: bore to sight angle (calculated)'] = zeroangle
+    else:
+        configuration['zero: bore to sight angle (configured)'] = zeroangle
 
-    configuration['angle - bore'] = zeroangle
 
     # Now we have everything needed to generate a full solution.
     # So we do.  The solution is stored in the pointer "sln" passed as the last argument.
