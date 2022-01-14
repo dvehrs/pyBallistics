@@ -97,9 +97,9 @@ def calcBDC(buildconf = {}):
     configuration['angle - shooting'] = angle
     if zeroangle is None:
         if zero_unit.lower() == 'm':
-            configuration['zero: distance'] = str(zero_dist)+" meters"
+            configuration['zero: distance (configured)'] = str(zero_dist)+" meters"
         else:
-            configuration['zero: distance'] = str(zero_dist)+" yards"
+            configuration['zero: distance (configured)'] = str(zero_dist)+" yards"
     configuration['local: altitude'] = altitude
     configuration['local: temperature'] = temperature
     configuration['local: barometer'] = barometer
@@ -158,5 +158,43 @@ def calcBDC(buildconf = {}):
     # k has the number of yards the solution is valid for, also the number of rows in the solution.
     hold_overs = ballistics.solve(range_max, drag_function, bc, v, sh, angle,
                                   zeroangle, windspeed, windangle)
+
+    # Get near and far zeros.
+    zero1 = None
+    zero2 = None
+    testdir = "up"
+    testnum = 1.0
+    for point in hold_overs.points:
+        if abs(point.path_inches) < testnum:
+            testnum = point.path_inches
+        if point.path_inches > 0 and testdir == "up":
+            testdir = "down"
+            if zero_unit.lower() == 'm':
+                zero1 = point.meters
+            else:
+                zero1 = point.yards
+            testnum = 1.0
+        if point.path_inches < 0 and testdir == "down":
+            if zero_unit.lower() == 'm':
+                zero2 = point.meters
+            else:
+                zero2 = point.yards
+            break
+
+    if zero1 is not None:
+        if zero_unit.lower() == 'm':
+            configuration['zero: 1st (near) approximate'] = str(zero1) + " meters"
+        else:
+            configuration['zero: 1st (near) approximate'] = str(zero1) + " yards"
+
+    if zero2 is not None:
+        if zero_unit.lower() == 'm':
+            configuration['zero: 2nd (far) approximate'] = str(zero2) + " meters"
+        else:
+            configuration['zero: 2nd (far) approximate'] = str(zero2) + " yards"
+
+
+
+
 
     return configuration, hold_overs
