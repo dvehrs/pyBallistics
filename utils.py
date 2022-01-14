@@ -1,5 +1,12 @@
 import math
 
+def inchToCm(inch):
+    """ This function coverts from inches to centimeters.
+         Inputs:  inch = length in inches
+         Outputs: none
+         Returns: length in centimeters.
+     """
+     return inch * 2.54
 
 def moaToMil(moa):
     """ This function us used
