@@ -39,11 +39,13 @@ def solve(range_max, drag_function, drag_coefficient, vi, sight_height, shooting
 #    # (1 *  5280) * 12 / 3600 = 17.6
 #    wind_ips = wind_speed * 17.6
 
-    step_feet = [*range(1, r, 1)]
+#    step_feet = [*range(1, r, 1)]
+    step_feet = [*range(0, r, 1)]
     step_meters = [*np.arange(0.8202, r, 0.8202)]
     step_combined = np.round(sorted(step_feet + step_meters), 4)
 
-    interval_yards = [*range(3, r, 3)]
+#    interval_yards = [*range(3, r, 3)]
+    interval_yards = [*range(0, r, 3)]
     interval_meters = [*np.arange(3.2808, r, 3.2808)]
     interval_combined = set(np.round(sorted(interval_yards + interval_meters), 4))
 
@@ -93,7 +95,10 @@ def solve(range_max, drag_function, drag_coefficient, vi, sight_height, shooting
             range_meters = '{:.2f}'.format(round(STEP/3.2808, 2))
 #            print("range_meters {}".format(range_meters))
             logger.info("range_meters {}".format(range_meters))
-            moa_correction = -angles.rad_to_moa(math.atan(y / x))
+            if x == 0:
+                moa_correction = 0.0
+            else:
+                moa_correction = -angles.rad_to_moa(math.atan(y / x))
 #            print("moa_correction {}". format(moa_correction))
             logger.info("moa_correction {}". format(moa_correction))
             mil_correction = utils.moaToMil(moa_correction)
@@ -108,7 +113,10 @@ def solve(range_max, drag_function, drag_coefficient, vi, sight_height, shooting
             logger.info("horizontal position inches {}".format(drift_inches))
             # Need to remember to convert X to inches so that both are in the
             # same unit of measurement.
-            drift_moa = angles.rad_to_moa(math.atan(z / (x*12)))
+            if x == 0:
+                drift_moa = 0.0
+            else:
+                drift_moa = angles.rad_to_moa(math.atan(z / (x*12)))
             logger.info("drift MOA {}". format(drift_moa))
             drift_mil = utils.moaToMil(drift_moa)
             logger.info("drift MIL {}". format(drift_mil))
