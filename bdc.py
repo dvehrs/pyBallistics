@@ -22,6 +22,11 @@ def calcBDC(buildconf = {}):
     else:
         bc = 0.269
 
+    if 'bullet weight' in buildconf:
+        bw = buildconf['bullet weight']
+    else:
+        bw = 40
+
     if 'velocity - muzzle' in buildconf:
         v = buildconf['velocity - muzzle']
     else:
@@ -93,6 +98,7 @@ def calcBDC(buildconf = {}):
     configuration['range max'] = range_max
     configuration['ballistic coefficint - input'] = bc
     configuration['velocity'] = v
+    configuration['bullet weight'] = str(bw) + " grains"
     configuration['zero: sight height'] = str(sh)+" inches"
     configuration['angle - shooting'] = angle
     if zeroangle is None:
@@ -156,7 +162,7 @@ def calcBDC(buildconf = {}):
     # Now we have everything needed to generate a full solution.
     # So we do.  The solution is stored in the pointer "sln" passed as the last argument.
     # k has the number of yards the solution is valid for, also the number of rows in the solution.
-    hold_overs = ballistics.solve(range_max, drag_function, bc, v, sh, angle,
+    hold_overs = ballistics.solve(range_max, drag_function, bc, v, bw, sh, angle,
                                   zeroangle, windspeed, windangle)
 
     # Get near and far zeros.

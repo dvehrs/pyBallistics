@@ -11,7 +11,7 @@ from points import points
 
 import logging
 
-def solve(range_max, drag_function, drag_coefficient, vi, sight_height, shooting_angle, zero_angle, wind_speed, wind_angle):
+def solve(range_max, drag_function, drag_coefficient, vi, bulletweight, sight_height, shooting_angle, zero_angle, wind_speed, wind_angle):
 
     logger = logging.getLogger()
 
@@ -125,10 +125,13 @@ def solve(range_max, drag_function, drag_coefficient, vi, sight_height, shooting
             logger.info("seconds {}". format(seconds))
 #            print("velocity {}", format(v))
             logger.info("velocity {}". format(v))
+            ke = utils.kineticEnergy( v, bulletweight )
+            logger.info("kinetic energy {}". format(ke))
+
             hold_overs.add_point(
                 holdover(range_yards, range_meters, moa_correction, \
                          mil_correction, impact_in, path_inches, drift_inches, \
-                         drift_moa, drift_mil, seconds, v))
+                         drift_moa, drift_mil, seconds, v, ke))
 
         z = z + ( cwind_ips * (dt - ((STEP - x)/vi)))
         # Compute position based on average velocity.

@@ -24,7 +24,7 @@ def kineticEnergy(vel, weight):
          Outputs: none
          Returns: length in centimeters.
     """
-    return ((weight*(vel^2))/450800)
+    return ((weight*(pow(vel,2)))/450800)
 
 def moaToMil(moa):
     """ This function us used

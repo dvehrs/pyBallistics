@@ -235,6 +235,7 @@ combinedtable.add_column("Drift - Mil", justify="right", no_wrap=True)
 combinedtable.add_column("Time", justify="right", no_wrap=True)
 combinedtable.add_column("Velocity - fps", justify="right", no_wrap=True)
 combinedtable.add_column("Velocity - mps", justify="right", no_wrap=True)
+combinedtable.add_column("Kinetic Energy", justify="right", no_wrap=True)
 
 
 for point in hold_overs.points:
@@ -275,6 +276,8 @@ for point in hold_overs.points:
             fieldlist.append(velf)
             velm = '{:.2f}'.format(round(fpsToMps(point.velocity), 2))
             fieldlist.append(velm)
+            ke = '{:.2f}'.format(round(point.kinetic_energy, 2))
+            fieldlist.append(ke)
             combinedtable.add_row(*fieldlist)
 
 

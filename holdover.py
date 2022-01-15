@@ -1,6 +1,7 @@
 class holdover:
     def __init__(self, yards, meters, moa_correction, mil_correction, \
-                 impact_in, path_inches, drift_inches, drift_moa, drift_mil, seconds, velocity):
+                 impact_in, path_inches, drift_inches, drift_moa, drift_mil, \
+                 seconds, velocity, kinetic_energy):
         self.yards = yards
         self.meters = meters
         self.moa_correction = moa_correction
@@ -12,6 +13,7 @@ class holdover:
         self.drift_mil = drift_mil
         self.seconds = seconds
         self.velocity = velocity
+        self.kinetic_energy = kinetic_energy
 
     def get_meters(self):
         return self.meters
