@@ -33,156 +33,119 @@ parser.add_argument('-c', '--conffile', type=str, dest='myconffile')
 parser.add_argument('-s', '--sharedconf', type=str, dest='sharedconf')
 args = parser.parse_args()
 
+conffile = configparser.RawConfigParser()
 if args.sharedconf is not None and os.path.exists(args.sharedconf):
-    config = configparser.RawConfigParser()
-    config.read(args.sharedconf)
-    buildconf = dict(config.items('Common'))
-else:
-    buildconf = {}
+    conffile.read(args.sharedconf)
 
 if args.myconffile is not None and os.path.exists(args.myconffile):
-    config = configparser.RawConfigParser()
-    config.read(args.myconffile)
-    buildconf = {**buildconf, **dict(config.items('Base'))}
-else:
-    if buildconf is not None:
-        buildconf = {}
+    conffile.read(args.myconffile)
 
-#print(buildconf)
-#quit()
+buildconf = {}
 
-if 'ammunition name' not in buildconf:
-    buildconf['ammunition name'] = "Configuration"
+buildconf['ammunition name'] = conffile.get('Build', \
+                                            'ammunition name', \
+                                             fallback='Configuration')
 
-if 'range max' in buildconf:
-    buildconf['range max'] = int(buildconf['range max'])
-else:
-    buildconf['range max'] = 600
+buildconf['range max'] = conffile.getint('Build', 'range max', \
+                                           fallback=600)
 
-if 'ballistic coefficient' in buildconf:
-    buildconf['ballistic coefficient'] = float(buildconf['ballistic coefficient'])
-else:
-    buildconf['ballistic coefficient'] = 0.269
+buildconf['ballistic coefficient'] = conffile.getfloat('Build', \
+                                                  'ballistic coefficient', \
+                                                   fallback=0.269)
 
-if 'velocity - muzzle' in buildconf:
-    buildconf['velocity - muzzle'] = int(buildconf['velocity - muzzle'])
-else:
-    buildconf['velocity - muzzle'] = 3165
+buildconf['velocity - muzzle'] = conffile.getint('Build', \
+                                              'velocity - muzzle', \
+                                               fallback=3165)
 
-if 'sight height' in buildconf:
-    buildconf['sight height'] = float(buildconf['sight height'])
-else:
-    buildconf['sight height'] = 1.5
+buildconf['sight height'] = conffile.getfloat('Build', 'sight height', \
+                                           fallback=1.5)
 
-if 'angle - shooting' in buildconf:
-    buildconf['angle - shooting'] = int(buildconf['angle - shooting'])
-else:
-    buildconf['angle - shooting'] = 0
+buildconf['angle - shooting'] = conffile.getint('Build', 'angle - shooting', \
+                                           fallback=0)
 
-if 'angle - bore' in buildconf:
+try:
+    buildconf['angle - bore'] = conffile.getfloat('Build', 'angle - bore', \
+                                                   fallback=None)
+except:
+    buildconf['angle - bore'] = conffile.get('Build', 'angle - bore')
     if buildconf['angle - bore'].lower() == 'none':
         buildconf['angle - bore'] = None
-#    print(type(buildconf['angle - bore']))
-#    print("angle - bore: %s" % buildconf['angle - bore'])
-    if buildconf['angle - bore'] is not None:
-        if buildconf['angle - bore'].replace('.','',1).isdigit():
-            buildconf['angle - bore'] = float(buildconf['angle - bore'])
-#        print(type(buildconf['angle - bore']))
-        if not isinstance(buildconf['angle - bore'], float):
-            print("Configuration file error:  angle bore is neither None or Number (floating point)")
-            exit()
-else:
-    buildconf['angle - bore'] = None
+    else:
+        print("Error in configuration file for 'angle - bore'")
+        quit()
 
-if 'zero - distance' in buildconf:
-    buildconf['zero - distance'] = int(buildconf['zero - distance'])
-else:
-    buildconf['zero - distance'] = 50
+buildconf['zero - distance'] = conffile.getint('Build', 'zero - distance', \
+                                           fallback=50)
 
-if 'zero - unit' in buildconf:
-    buildconf['zero - unit'] = buildconf['zero - unit'].lower()
-else:
-    buildconf['zero - unit'] = 'y'
+buildconf['zero - unit'] = conffile.get('Build', 'zero - unit', \
+                                         fallback='y')
 
-if 'drag function' in buildconf:
-    buildconf['drag function'] = buildconf['drag function'].upper()
-else:
-    buildconf['drag function'] = 'G1'
+buildconf['drag function'] = conffile.get('Build', 'drag function', \
+                                           fallback='G1')
 
-if 'altitude' in buildconf:
-    buildconf['altitude'] = int(buildconf['altitude'])
+buildconf['altitude'] = conffile.getint('Build', 'altitude', \
+                                         fallback=0)
 
-if 'barometer' in buildconf:
-    buildconf['barometer'] = float(buildconf['barometer'])
+buildconf['barometer'] = conffile.getfloat('Build', 'barometer', \
+                                           fallback=29.95)
 
-if 'temperature' in buildconf:
-    buildconf['temperature'] = float(buildconf['temperature'])
+buildconf['temperature'] = conffile.getfloat('Build', 'temperature', \
+                                         fallback=50.0)
 
-if 'humidity - relative' in buildconf:
-    buildconf['humidity - relative'] = float(buildconf['humidity - relative'])
+buildconf['humidity - relative'] = conffile.getfloat('Build', \
+                                                     'humidity - relative', \
+                                                      fallback=30)
 
-if 'wind - speed' in buildconf:
-    buildconf['wind - speed'] = float(buildconf['wind - speed'])
-else:
-    buildconf['wind - speed'] = 10
+buildconf['wind - speed'] = conffile.getfloat('Build', 'wind - speed', \
+                                               fallback=10)
 
-if 'wind - angle' in buildconf:
-    buildconf['wind - angle'] = int(buildconf['wind - angle'])
-else:
-    buildconf['wind - angle'] = 90
+buildconf['wind - angle'] = conffile.getint('Build', 'wind - angle', \
+                                             fallback=90)
 
+#print (buildconf)
+#quit()
+#
+displayconf = {}
 
+displayconf['rangetype'] = conffile.get('Display', 'rangetype', \
+                                           fallback='yards')
+displayconf['interval'] = conffile.getint('Display', 'interval', \
+                                             fallback=25)
+displayconf['Drop - Inches'] = conffile.getboolean('Display','Drop - Inches', \
+                                                      fallback=True)
+displayconf['Drop - Centimeters'] = conffile.getboolean('Display', \
+                                                           'Drop - Centimeters', \
+                                                            fallback=False)
+displayconf['Drop - MOA'] = conffile.getboolean('Display','Drop - MOA', \
+                                                    fallback=False)
+displayconf['Drop - Mil'] = conffile.getboolean('Display','Drop - Mil', \
+                                                    fallback=True)
+displayconf['Drift - Inches'] = conffile.getboolean('Display', \
+                                                       'Drift - Inches', \
+                                                        fallback=True)
+displayconf['Drift - Centimeters'] = conffile.getboolean('Display', \
+                                                            'Drift - Centimeters', \
+                                                             fallback=False)
+displayconf['Drift - MOA'] = conffile.getboolean('Display', 'Drift - MOA', \
+                                                      fallback=False)
+displayconf['Drift - Mil'] = conffile.getboolean('Display', 'Drift - Mil', \
+                                                      fallback=True)
+displayconf['Time'] = conffile.getboolean('Display', 'Time', fallback=True)
+displayconf['Velocity - fps'] = conffile.getboolean('Display', \
+                                                       'Velocity - fps', \
+                                                        fallback=True)
+displayconf['Velocity - mps'] = conffile.getboolean('Display', \
+                                                       'Velocity - mps', \
+                                                        fallback=False)
+displayconf['Kinetic Energy'] = conffile.getboolean('Display', \
+                                                       'Kinetic Energy', \
+                                                        fallback=True)
 
-
-if args.myconffile is not None and os.path.exists(args.myconffile):
-    config = configparser.RawConfigParser()
-#    config.read('./ConfigurationFiles/22lr-CCI-Standard-Velocity.cfg')
-    config.read(args.myconffile)
-    displayconf = dict(config.items('Display'))
-else:
-    displayconf = {}
-
-if 'rangetype' in displayconf:
-    displayconf['rangetype'] = displayconf['rangetype'].lower()
-else:
-    displayconf['rangetype'] = 'yards'
-
-if 'interval' in displayconf:
-    displayconf['interval'] = int(displayconf['interval'])
-else:
-    displayconf['interval'] = 50
 
 #configuration, hold_overs = calcBDC()
 configuration, hold_overs = calcBDC(buildconf)
 
 console = Console()
-
-## Print Configuration Table
-#conftable = Table(title="Configuration")
-#conftable.add_column("Key", justify="left", no_wrap=True)
-#conftable.add_column("Value", justify="left", no_wrap=True)
-#for item in sorted(configuration):
-#    conftable.add_row(item, str(configuration[item]))
-#
-#console.print(conftable)
-#print()
-#
-#alltable = Table(title="All Points in hold_overs")
-#alltable.add_column("Yards", justify="right", no_wrap=True)
-#alltable.add_column("Meters", justify="right", no_wrap=True)
-#alltable.add_column("Elevation - Inches", justify="right", no_wrap=True)
-#alltable.add_column("Incline Compensation", justify="right", no_wrap=True)
-#alltable.add_column("Inches-Incline", justify="right", no_wrap=True)
-#alltable.add_column("Cant Compensation", justify="right", no_wrap=True)
-#for point in hold_overs.points:
-#    incline_compensation = get_incline_compensation(point.path_inches, -15)
-#
-#    cant_compensation = get_cant_compensation(point.seconds, 90, 1.5)
-#
-#    alltable.add_row (point.yards, point.meters, str(point.path_inches), str(incline_compensation), str(abs(point.path_inches-incline_compensation)), str(cant_compensation))
-#
-#console.print(alltable)
-#print()
 
 console.print()
 
@@ -224,19 +187,31 @@ if displayconf['rangetype'] in ['both', 'yards']:
 if displayconf['rangetype'] in ['both', 'meters']:
     combinedtable.add_column("Meters", justify="right", no_wrap=True)
 
-combinedtable.add_column("Drop - In.", justify="right", no_wrap=True)
-combinedtable.add_column("Drop - Cm.", justify="right", no_wrap=True)
-combinedtable.add_column("Drop - MOA", justify="right", no_wrap=True)
-combinedtable.add_column("Drop - Mil", justify="right", no_wrap=True)
-combinedtable.add_column("Drift - In.", justify="right", no_wrap=True)
-combinedtable.add_column("Drift - Cm.", justify="right", no_wrap=True)
-combinedtable.add_column("Drift - MOA", justify="right", no_wrap=True)
-combinedtable.add_column("Drift - Mil", justify="right", no_wrap=True)
-combinedtable.add_column("Time", justify="right", no_wrap=True)
-combinedtable.add_column("Velocity - fps", justify="right", no_wrap=True)
-combinedtable.add_column("Velocity - mps", justify="right", no_wrap=True)
-combinedtable.add_column("Kinetic Energy", justify="right", no_wrap=True)
 
+if displayconf['Drop - Inches']:
+    combinedtable.add_column("Drop - In.", justify="right", no_wrap=True)
+if displayconf['Drop - Centimeters']:
+    combinedtable.add_column("Drop - Cm.", justify="right", no_wrap=True)
+if displayconf['Drop - MOA']:
+    combinedtable.add_column("Drop - MOA", justify="right", no_wrap=True)
+if displayconf['Drop - Mil']:
+    combinedtable.add_column("Drop - Mil", justify="right", no_wrap=True)
+if displayconf['Drift - Inches']:
+    combinedtable.add_column("Drift - In.", justify="right", no_wrap=True)
+if displayconf['Drift - Centimeters']:
+    combinedtable.add_column("Drift - Cm.", justify="right", no_wrap=True)
+if displayconf['Drift - MOA']:
+    combinedtable.add_column("Drift - MOA", justify="right", no_wrap=True)
+if displayconf['Drift - Mil']:
+    combinedtable.add_column("Drift - Mil", justify="right", no_wrap=True)
+if displayconf['Time']:
+    combinedtable.add_column("Time", justify="right", no_wrap=True)
+if displayconf['Velocity - fps']:
+    combinedtable.add_column("Velocity - fps", justify="right", no_wrap=True)
+if displayconf['Velocity - mps']:
+    combinedtable.add_column("Velocity - mps", justify="right", no_wrap=True)
+if displayconf['Kinetic Energy']:
+    combinedtable.add_column("Kinetic Energy", justify="right", no_wrap=True)
 
 for point in hold_overs.points:
     if (displayconf['rangetype'] == 'yards' and float(point.yards).is_integer()) or \
@@ -252,32 +227,44 @@ for point in hold_overs.points:
                 fieldlist.append(point.meters)
             # Consider reducing this to two decimal places as there is a minor
             # difference exposed when using three decimal places and specifying
-            # a fixed bore (zero) angle
+            # a fixed bore angle for zero
             pi = '{:.3f}'.format(round(point.path_inches, 3))
 #            pi = '{:.2f}'.format(round(point.path_inches, 3))
-            fieldlist.append(pi)
+            if displayconf['Drop - Inches']:
+                fieldlist.append(pi)
             pc = '{:.3f}'.format(round(inchToCm(point.path_inches), 3))
-            fieldlist.append(pc)
+            if displayconf['Drop - Centimeters']:
+                fieldlist.append(pc)
             moac = '{:.2f}'.format(round(point.moa_correction, 2))
-            fieldlist.append(moac)
+            if displayconf['Drop - MOA']:
+                fieldlist.append(moac)
             milc = '{:.2f}'.format(round(point.mil_correction, 2))
-            fieldlist.append(milc)
+            if displayconf['Drop - Mil']:
+                fieldlist.append(milc)
             dinch = '{:.3f}'.format(round(point.drift_inches, 3))
-            fieldlist.append(dinch)
+            if displayconf['Drift - Inches']:
+                fieldlist.append(dinch)
             dcent = '{:.3f}'.format(round(inchToCm(point.drift_inches), 3))
-            fieldlist.append(dcent)
+            if displayconf['Drift - Centimeters']:
+                fieldlist.append(dcent)
             dmoa = '{:.2f}'.format(round(point.drift_moa, 2))
-            fieldlist.append(dmoa)
+            if displayconf['Drift - MOA']:
+                fieldlist.append(dmoa)
             dmil = '{:.2f}'.format(round(point.drift_mil, 2))
-            fieldlist.append(dmil)
+            if displayconf['Drift - Mil']:
+                fieldlist.append(dmil)
             stime = '{:.3f}'.format(round(point.seconds, 3))
-            fieldlist.append(stime)
+            if displayconf['Time']:
+                fieldlist.append(stime)
             velf = '{:.2f}'.format(round(point.velocity, 2))
-            fieldlist.append(velf)
+            if displayconf['Velocity - fps']:
+                fieldlist.append(velf)
             velm = '{:.2f}'.format(round(fpsToMps(point.velocity), 2))
-            fieldlist.append(velm)
+            if displayconf['Velocity - mps']:
+                fieldlist.append(velm)
             ke = '{:.2f}'.format(round(point.kinetic_energy, 2))
-            fieldlist.append(ke)
+            if displayconf['Kinetic Energy']:
+                fieldlist.append(ke)
             combinedtable.add_row(*fieldlist)
 
 
