@@ -170,15 +170,15 @@ def calcBDC(buildconf = {}):
         if point.path_inches > 0 and testdir == "up":
             testdir = "down"
             if zero_unit.lower() == 'm':
-                zero1 = point.meters
+                zero1 = round(float(point.meters))
             else:
-                zero1 = point.yards
+                zero1 = round(float(point.yards))
             testnum = 1.0
         if point.path_inches < 0 and testdir == "down":
             if zero_unit.lower() == 'm':
-                zero2 = point.meters
+                zero2 = round(float(point.meters))
             else:
-                zero2 = point.yards
+                zero2 = round(float(point.yards))
             break
 
     if zero1 is not None:
