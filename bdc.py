@@ -3,6 +3,7 @@ import angles
 import ballistics
 import constants
 import logging
+import math
 
 
 def calcBDC(buildconf = {}):
@@ -96,7 +97,7 @@ def calcBDC(buildconf = {}):
     configuration = {}
 
     configuration['range max'] = range_max
-    configuration['ballistic coefficint - input'] = bc
+    configuration['ballistic coefficint - configured'] = bc
     configuration['velocity'] = v
     configuration['bullet weight'] = str(bw) + " grains"
     configuration['zero: sight height'] = str(sh)+" inches"
@@ -135,7 +136,7 @@ def calcBDC(buildconf = {}):
     logger.info("bc {}".format(bc))
     # print("bc {}".format(bc))
 
-    configuration['ballistic coefficint - corrected'] = bc
+    configuration['ballistic coefficint - corrected'] = "{:.3f}".format(bc)
 
     # Convert zero range in meters to yards for calculating the zero angle
     if zero_unit.lower() == 'm':
