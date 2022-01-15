@@ -155,7 +155,7 @@ def calcBDC(buildconf = {}):
     # different bc or velocities.
     if zeroangle is None:
         zeroangle = angles.zero_angle(drag_function, bc, v, sh, zero_dist, 0)
-        configuration['zero: bore to sight angle (calculated)'] = zeroangle
+        configuration['zero: bore to sight angle (calculated)'] = "{:.6f}".format(zeroangle)
     else:
         configuration['zero: bore to sight angle (configured)'] = zeroangle
 
