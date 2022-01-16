@@ -53,6 +53,10 @@ buildconf['ballistic coefficient'] = conffile.getfloat('Build', \
                                                   'ballistic coefficient', \
                                                    fallback=0.269)
 
+buildconf['bullet weight'] = conffile.getfloat('Build', \
+                                               'bullet weight', \
+                                                fallback=40)
+
 buildconf['velocity - muzzle'] = conffile.getint('Build', \
                                               'velocity - muzzle', \
                                                fallback=3165)
