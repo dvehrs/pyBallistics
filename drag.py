@@ -312,14 +312,20 @@ def G8(vp):
 def retard(drag_function, drag_coefficient, vp):
     """
       A function to calculate ballistic retardation values based on standard drag functions.
-      @param drag_function    G1, G2, G3, G4, G5, G6, G7, or G8
+      @param drag_function    G1, G2, G3, G5, G6, G7, or G8
       @param drag_coefficient The coefficient of drag for the projectile for the given drag function.
       @param vp               The Velocity of the projectile.
       @return The function returns the projectile drag retardation velocity, in ft/s per second.
     """
 
     drag_functions = {
-        "G1": G1(vp)
+        "G1": G1(vp),
+        "G2": G2(vp),
+        "G3": G3(vp),
+        "G5": G5(vp),
+        "G6": G6(vp),
+        "G7": G7(vp),
+        "G8": G8(vp)
     }
 
     # Get the function from switcher dictionary
