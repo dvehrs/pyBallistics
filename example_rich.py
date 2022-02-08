@@ -91,14 +91,14 @@ buildconf['altitude'] = conffile.getint('Build', 'altitude', \
                                          fallback=0)
 
 buildconf['barometer'] = conffile.getfloat('Build', 'barometer', \
-                                           fallback=29.95)
+                                           fallback=29.92)
 
 buildconf['temperature'] = conffile.getfloat('Build', 'temperature', \
-                                         fallback=50.0)
+                                         fallback=59.0)
 
 buildconf['humidity - relative'] = conffile.getfloat('Build', \
                                                      'humidity - relative', \
-                                                      fallback=30)
+                                                      fallback=0.5)
 
 buildconf['wind - speed'] = conffile.getfloat('Build', 'wind - speed', \
                                                fallback=10)
