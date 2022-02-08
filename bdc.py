@@ -97,7 +97,7 @@ def calcBDC(buildconf = {}):
     configuration = {}
 
     configuration['range max'] = range_max
-    configuration['ballistic coefficint - configured'] = bc
+    configuration['ballistic coefficient - configured'] = bc
     configuration['velocity'] = v
     configuration['bullet weight'] = str(bw) + " grains"
     configuration['zero: sight height'] = str(sh)+" inches"
@@ -107,10 +107,10 @@ def calcBDC(buildconf = {}):
             configuration['zero: distance (configured)'] = str(zero_dist)+" meters"
         else:
             configuration['zero: distance (configured)'] = str(zero_dist)+" yards"
-    configuration['local: altitude'] = altitude
-    configuration['local: temperature'] = temperature
-    configuration['local: barometer'] = barometer
-    configuration['local: relative humidity'] = relative_humidity
+    configuration['local: altitude'] = str(altitude) + ' feet'
+    configuration['local: temperature'] = str(temperature) + ' F'
+    configuration['local: barometer'] = str(barometer) + ' Hg'
+    configuration['local: relative humidity'] = str(relative_humidity*100) + ' %'
     configuration['local: wind speed'] = windspeed
     configuration['local: wind angle'] = windangle
 
@@ -136,7 +136,7 @@ def calcBDC(buildconf = {}):
     logger.info("bc {}".format(bc))
     # print("bc {}".format(bc))
 
-    configuration['ballistic coefficint - corrected'] = "{:.3f}".format(bc)
+    configuration['ballistic coefficient - corrected'] = "{:.3f}".format(bc)
 
     # Convert zero range in meters to yards for calculating the zero angle
     if zero_unit.lower() == 'm':
