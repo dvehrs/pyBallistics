@@ -1,16 +1,15 @@
+import math
+import argparse
+import configparser
+import os.path
+import sys, logging
+from rich.console import Console
+from rich.table import Table
 from bdc import calcBDC
 from utils import get_incline_compensation
 from utils import get_cant_compensation
 from utils import fpsToMps
 from utils import inchToCm
-from rich.console import Console
-from rich.table import Table
-import math
-import argparse
-import configparser
-import os.path
-
-import sys, logging
 
 #logLevel=logging.DEBUG
 #logLevel=logging.INFO

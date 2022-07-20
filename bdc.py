@@ -1,13 +1,14 @@
+import logging
+import math
 import atmosphere
 import angles
 import ballistics
 import constants
-import logging
-import math
 
 
 def calcBDC(buildconf = {}):
-#def calcBDC(range_max = constants.BALLISTICS_COMPUTATION_MAX_YARDS, bc = 0.269, v = 3165, sh = 1.5, angle = 0,
+#def calcBDC(range_max = constants.BALLISTICS_COMPUTATION_MAX_YARDS, bc = 0.269,
+#            v = 3165, sh = 1.5, angle = 0,
 #            zero_dist = 50, zero_unit = 'y', drag_function = "G1"):
 
     logger = logging.getLogger()
