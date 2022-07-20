@@ -174,35 +174,27 @@ def calcBDC(buildconf = {}):
     testnum = 1.0
     for point in hold_overs.points:
         if abs(point.path_inches) < testnum:
-            testnum = point.path_inches
+            testnum = abs(point.path_inches)
         if point.path_inches > 0 and testdir == "up":
             testdir = "down"
-            if zero_unit.lower() == 'm':
-                zero1 = round(float(point.meters))
-            else:
-                zero1 = round(float(point.yards))
             testnum = 1.0
-        if point.path_inches < 0 and testdir == "down":
-            if zero_unit.lower() == 'm':
-                zero2 = round(float(point.meters))
+            if abs(point.path_inches) < lastinches:
+                zero1 = str(point.yards) + " yards / " + str(point.meters) + " meters"
             else:
-                zero2 = round(float(point.yards))
+                zero1 = lastrange
+        if point.path_inches < 0 and testdir == "down":
+            if abs(point.path_inches) < lastinches:
+                zero2 = str(point.yards) + " yards / " + str(point.meters) + " meters"
+            else:
+                zero2 = lastrange
             break
+        lastinches = abs(point.path_inches)
+        lastrange = str(point.yards) + " yards / " + str(point.meters) + " meters"
 
     if zero1 is not None:
-        if zero_unit.lower() == 'm':
-            configuration['zero: 1st (near) approximate'] = str(zero1) + " meters"
-        else:
-            configuration['zero: 1st (near) approximate'] = str(zero1) + " yards"
+        configuration['zero: 1st (near) approximate'] = zero1
 
     if zero2 is not None:
-        if zero_unit.lower() == 'm':
-            configuration['zero: 2nd (far) approximate'] = str(zero2) + " meters"
-        else:
-            configuration['zero: 2nd (far) approximate'] = str(zero2) + " yards"
-
-
-
-
+        configuration['zero: 2nd (far) approximate'] = zero2
 
     return configuration, hold_overs
