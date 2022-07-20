@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- <link rel="stylesheet" href='/static/main.css' /> -->
+    <link rel="stylesheet" href={{ url_for('static', filename='main.css') }} />
+    <title>Ballistics Base</title>
+</head>
+<body>
+<!-- The Modal for display configuration options -->
+<div id="confpop" class="popup">
+  <!--
+  <div class="popup-content">
+    <span class="close">&times;</span>
+    <p> This is a popup.</p>
+    <div>
+      <div class="row">
+        <div class="col-25">
+          <label for="typefilter">Range In:</label>
+        </div>
+        <div class="col-75">
+          <select name="typefilter" id="typefilter">
+            <option value="yards">Yards</option>
+            <option value="meters">Meters</option>
+            <option value="both">Both</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+          <label for="intervalfilter">Range Interval:</label>
+        </div>
+        <div class="col-75">
+          <select name="intervalfilter" id="intervalfilter">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+          <label for="velocityfilter">Velocity In:</label>
+        </div>
+        <div class="col-75">
+          <select name="velocityfilter" id="velocityfilter">
+            <option value="fps">Feet Per Second (FPS)</option>
+            <option value="mps">Meters Per Second (MPS)</option>
+            <option value="both">Both</option>
+            <option value="neither">Neither</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+          Drop Items:&nbsp;
+        </div>
+        <div class="col-75">
+          <ul>
+            <li><input type="checkbox" id="cb_dinch" checked>Inches</li>
+            <li><input type="checkbox" id="cb_dcent" checked>Centimeters</li>
+            <li><input type="checkbox" id="cb_dmoa" checked>MOA</li>
+            <li><input type="checkbox" id="cb_dmil" checked>Mil</li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+          Drift Items:&nbsp;
+        </div>
+        <div class="col-75">
+          <ul>
+            <li><input type="checkbox" id="cb_hinch" checked>Inches</li>
+            <li><input type="checkbox" id="cb_hcent" checked>Centimeters</li>
+            <li><input type="checkbox" id="cb_hmoa" checked>MOA</li>
+            <li><input type="checkbox" id="cb_hmil" checked>Mil</li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+        Other Items:&nbsp;
+        </div>
+        <div class="col-75">
+          <ul>
+            <li><input type="checkbox" id="cb_kine" checked>Kinetic Energy</li>
+            <li><input type="checkbox" id="cb_time" checked>Time</li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+        </div>
+        <div class="col-75">
+          <button onclick="filteroutput()">Filter</button>
+          <button onclick="savedisplayopts()" title="Save display options to localStorage">Save</button>
+          <button onclick="runclear()" title="Clear saved options and restore display to default">Clear</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  -->
+  <div class="popup-content">
+    <span class="close">&times;</span>
+    <p>Display Options:</p>
+    <div class="divTable">
+      <div class="divBody">
+        <div class="divTableRow">
+          <div class="divTableCell">
+            <label for="typefilter">Range In:</label>
+          </div>
+          <div class="divTableCell">
+            <select name="typefilter" id="typefilter">
+              <option value="yards">Yards</option>
+              <option value="meters">Meters</option>
+              <option value="both">Both</option>
+            </select>
+          </div>
+      </div>
+        <div class="divTableRow">
+          <div class="divTableCell">
+            <label for="intervalfilter">Range Interval:</label>
+          </div>
+          <div class="divTableCell">
+            <select name="intervalfilter" id="intervalfilter">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+        </div>
+        <div class="divTableRow">
+          <div class="divTableCell">
+            <label for="velocityfilter">Velocity In:</label>
+        </div>
+          <div class="divTableCell">
+            <select name="velocityfilter" id="velocityfilter">
+              <option value="fps">Feet Per Second (FPS)</option>
+              <option value="mps">Meters Per Second (MPS)</option>
+              <option value="both">Both</option>
+              <option value="neither">Neither</option>
+            </select>
+          </div>
+        </div>
+        <div class="divTableRow">
+          <div class="divTableCell">
+            Drop Items:&nbsp;
+          </div>
+          <div class="divTableCell">
+            <ul>
+              <li><input type="checkbox" id="cb_dinch" checked>Inches</li>
+              <li><input type="checkbox" id="cb_dcent" checked>Centimeters</li>
+              <li><input type="checkbox" id="cb_dmoa" checked>MOA</li>
+              <li><input type="checkbox" id="cb_dmil" checked>Mil</li>
+            </ul>
+          </div>
+        </div>
+        <div class="divTableRow">
+          <div class="divTableCell">
+            Drift Items:&nbsp;
+          </div>
+          <div class="divTableCell">
+            <ul>
+              <li><input type="checkbox" id="cb_hinch" checked>Inches</li>
+              <li><input type="checkbox" id="cb_hcent" checked>Centimeters</li>
+              <li><input type="checkbox" id="cb_hmoa" checked>MOA</li>
+              <li><input type="checkbox" id="cb_hmil" checked>Mil</li>
+            </ul>
+          </div>
+        </div>
+        <div class="divTableRow">
+          <div class="divTableCell">
+            Other Items:&nbsp;
+          </div>
+          <div class="divTableCell">
+            <ul>
+              <li><input type="checkbox" id="cb_kine" checked>Kinetic Energy</li>
+              <li><input type="checkbox" id="cb_time" checked>Time</li>
+            </ul>
+          </div>
+        </div>
+        <div class="divTableRow">
+          <div class="divTableCell">
+          </div>
+          <div class="divTableCell">
+            <button onclick="filteroutput()">Filter</button>
+            <button onclick="savedisplayopts()" title="Save display options to localStorage">Save</button>
+            <button onclick="runclear()" title="Clear saved options and restore display to default">Clear Saved</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Core Page Content -->
+<div class="maincontainer">
+  <h1>Ballistics Base</h1>
+  <form action="/" method="post">
+    <div class="divTable center">
+      <div class="divBody">
+        <div class="divTableRow">
+          <div class="divTableCell">
+            <label for="dragfunc">Drag Function</label>
+          </div>
+          <div class="divTableCell">
+            <select name="dragfunc" id="dragfunc" value={{ myData.dragfunc }}>
+              <option value="G1">G1</option>
+              <option value="G2">G2</option>
+              <option value="G3">G3</option>
+              <option value="G5">G5</option>
+              <option value="G6">G6</option>
+              <option value="G7">G7</option>
+              <option value="G8">G8</option>
+            </select>
+          </div>
+          <div class="divTableCell">
+          </div>
+        </div>
+
+        <div class="divTableRow">
+          <div class="divTableCell">
+            <label for="bc">Ballistic Coefficient</label>
+          </div>
+          <div class="divTableCell">
+            <!-- <input type="number" name="bc" value={{ myData.bc }} step="0.001" min="0" max="1" required> -->
+            <input type="text" pattern="0[.][0-9]{3}" name="bc" value={{ myData.bc }} required>
+          </div>
+          <div class="divTableCell">
+          </div>
+        </div>
+
+        <div class="divTableRow">
+          <div class="divTableCell">
+            <label for="bweight">Bullet Weight</label>
+          </div>
+          <div class="divTableCell">
+            <!-- <<input type="number" name="bweight" value={{ myData.bweight }} required> -->
+            <input type="text" pattern="[0-9]{2,3}" name="bweight" value={{ myData.bweight }} required>
+          </div>
+          <div class="divTableCell">
+            (grains)
+          </div>
+        </div>
+
+        <div class="divTableRow">
+          <div class="divTableCell">
+            <label for="muzvel">Muzzle Velocity</label>
+          </div>
+          <div class="divTableCell">
+            <!-- <input type="number" name="muzvel" value={{ myData.muzvel }} required> -->
+            <input type="text" pattern="[0-9]{2,4}" name="muzvel" value={{ myData.muzvel }} required>
+          </div>
+          <div class="divTableCell">
+            <label for="fps">
+              <input type="radio" id="fps" name="unitsp" value="fps" />
+              FPS
+            </label>
+            <label for="mps">
+              <input type="radio" id="mps" name="unitsp" value="mps" />
+              MPS
+            </label>
+          </div>
+        </div>
+
+        <div class="divTableRow blankrow">
+        </div>
+
+        <div class="divTableRow">
+          <div class="divTableCell">
+            <label for="sangle">Shooting Angle</label>
+          </div>
+          <div class="divTableCell">
+            <!-- <input type="number" name="sangle" value={{ myData.sangle }} required> -->
+            <input type="text" pattern="[.0-9]{1,5}" name="sangle" value={{ myData.sangle }}>
+          </div>
+          <div class="divTableCell">
+            (degrees)
+          </div>
+        </div>
+
+        <div class="divTableRow blankrow">
+        </div>
+
+        <div class="divTableRow">
+          <div class="divTableCell sectfirstrow">
+            <label for="dragfunc">Calculate Zero by</label>
+          </div>
+          <div class="divTableCell sectfirstrow">
+            <select name="zerofilter" id="zerofilter" onchange="filterzero()" value={{ myData.zerofilter }}>
+              <option value="range">Range</option>
+              <option value="bore angle">Bore Angle</option>
+            </select>
+          </div>
+          <div class="divTableCell sectfirstrow">
+          </div>
+        </div>
+
+        <div class="divTableRow" id="zerorangerow">
+          <div class="divTableCell sectmidrow">
+            <label for="zerorange">Zero Range</label>
+          </div>
+          <div class="divTableCell sectmidrow">
+            <!-- <input type="number" name="zerorange" value={{ myData.zerorange }} required> -->
+            <input type="text" pattern="[.0-9]{1,6}" name="zerorange" value={{ myData.zerorange }}>
+          </div>
+          <div class="divTableCell sectmidrow">
+            <label for="range-yards">
+              <input type="radio" id="range-yards" name="unitzero" value="y" />
+                Yards
+            </label>
+            <label for="range-meters">
+              <input type="radio" id="range-meters" name="unitzero" value="m" />
+                Meters
+            </label>
+          </div>
+        </div>
+
+        <div class="divTableRow" id="zeroborerow">
+          <div class="divTableCell sectmidrow">
+            <label for="bangle">Bore Angle</label>
+          </div>
+          <div class="divTableCell sectmidrow">
+            <!-- <input type="number" name="bangle" value={{ myData.bangle }} required> -->
+            <input type="text" pattern="[.0-9]{2,8}" name="bangle" value={{ myData.bangle }}>
+          </div>
+          <div class="divTableCell sectmidrow">
+            (degrees)
+          </div>
+        </div>
+
+        <div class="divTableRow">
+          <div class="divTableCell sectmidrow">
+            <label for="sheight">Sight Height</label>
+          </div>
+          <div class="divTableCell sectmidrow">
+            <!-- <input type="number" name="sheight" value={{ myData.sheight }} step="0.1" min=0 max=5 required> -->
+            <input type="text" pattern="[.0-9]{1,5}" name="sheight" value={{ myData.sheight }} required>
+          </div>
+          <div class="divTableCell sectmidrow">
+            (inches)
+          </div>
+        </div>
+
+        <div class="divTableRow blankrow">
+          <div class="divTableCell sectlastrow">
+          </div>
+          <div class="divTableCell sectlastrow">
+          </div>
+          <div class="divTableCell sectlastrow">
+          </div>
+        </div>
+
+        <div class="divTableRow blankrow">
+        </div>
+
+        <div class="divTableRow labeldiv">
+          <div class="divTableCell sectfirstrow">
+            <div class="longlabel">
+              <input type="checkbox" id="localadjust" name="localadjust">
+              <label for="localadust">Adjust for local conditions</label>
+            </div>
+          </div>
+          <div class="divTableCell sectfirstrow">
+          </div>
+          <div class="divTableCell sectfirstrow">
+          </div>
+        </div>
+        <div class="divTableRow">
+          <div class="divTableCell sectmidrow">
+            <label for="wspeed">Wind Speed</label>
+          </div>
+          <div class="divTableCell sectmidrow">
+            <!-- <input type="number" name="wspeed" value={{ myData.wspeed }} required> -->
+            <input type="text" pattern="[.0-9]{1,4}" name="wspeed" value={{ myData.wspeed }}>
+          </div>
+          <div class="divTableCell sectmidrow">
+            <label for="windspd-mph">
+              <input type="radio" id="windspd-mph" name="unit-windspd" value="mph" />
+                MPH
+            </label>
+            <label for="windspd-kph">
+              <input type="radio" id="windspd-kph" name="unit-windspd" value="kph" />
+                KPH
+            </label>
+          </div>
+        </div>
+
+        <div class="divTableRow">
+          <div class="divTableCell sectmidrow">
+            <label for="wangle">Wind Angle</label>
+          </div>
+          <div class="divTableCell sectmidrow">
+            <!-- <input type="number" name="wangle" value={{ myData.wangle }} required> -->
+            <input type="text" pattern="[.0-9]{1,5}" name="wangle" value={{ myData.wangle }}>
+          </div>
+          <div class="divTableCell sectmidrow">
+            (degrees)
+          </div>
+        </div>
+
+        <div class="divTableRow">
+          <div class="divTableCell sectmidrow">
+            <label for="wangle">Altitude</label>
+          </div>
+          <div class="divTableCell sectmidrow">
+            <!-- <input type="number" name="altitude" value={{ myData.altitude }} required> -->
+            <input type="text" pattern="[.0-9]{1,6}" name="altitude" value={{ myData.altitude }}>
+          </div>
+          <div class="divTableCell sectmidrow">
+            <label for="altitude-feet">
+              <input type="radio" id="altitude-feet" name="unit-altitude" value="feet" />
+                Feet
+            </label>
+            <label for="altitude-meters">
+              <input type="radio" id="altitude-meters" name="unit-altitude" value="meters" />
+                Meters
+            </label>
+          </div>
+        </div>
+        <div class="divTableRow">
+          <div class="divTableCell sectmidrow">
+            <label for="wangle">Temperature</label>
+          </div>
+          <div class="divTableCell sectmidrow">
+            <!-- <input type="number" name="temperature" value={{ myData.temperature }} required> -->
+            <input type="text" pattern="[-.0-9]{1,4}" name="temperature" value={{ myData.temperature }}>
+          </div>
+          <div class="divTableCell sectmidrow">
+            <label for="temp-c">
+              <input type="radio" id="temp-c" name="unit-temp" value="centigrade" />
+                &#176;C
+            </label>
+            <label for="temp-f">
+              <input type="radio" id="temp-f" name="unit-temp" value="fahrenheit" />
+                &#176;F
+            </label>
+          </div>
+        </div>
+        <div class="divTableRow">
+          <div class="divTableCell sectmidrow">
+            <label for="wangle">Barometric Pressure</label>
+          </div>
+          <div class="divTableCell sectmidrow">
+            <!-- <input type="number" name="barometric" value={{ myData.barometric }} required> -->
+            <input type="text" pattern="[.0-9]{1,5}" name="barometric" value={{ myData.barometric }}>
+          </div>
+          <div class="divTableCell sectmidrow">
+            (hg)
+          </div>
+        </div>
+        <div class="divTableRow">
+          <div class="divTableCell sectmidrow">
+            <label for="wangle">Relative Humidity</label>
+          </div>
+          <div class="divTableCell sectmidrow">
+            <!-- <input type="number" name="humidity" value={{ myData.humidity }} required> -->
+            <input type="text" pattern="[.0-9]{1,5}" name="humidity" value={{ myData.humidity }}>
+          </div>
+          <div class="divTableCell sectmidrow">
+            (%)
+          </div>
+        </div>
+        <div class="divTableRow blankrow">
+          <div class="divTableCell sectlastrow">
+          </div>
+          <div class="divTableCell sectlastrow">
+          </div>
+          <div class="divTableCell sectlastrow">
+          </div>
+        </div>
+
+        <div class="divTableRow blankrow">
+        </div>
+
+        <div class="buttoncontainer">
+          <div class="buttoncontainercenter">
+            <input type="submit" value="Submit">
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <br />
+
+  <div class="confcontainer space-evenly">
+    <div id="conftable" class="conftable">
+      Base Configuration:
+      {% for key, value in confdict3.items() %}
+      <div class="row">
+        <div class="confwide"> {{ key }} </div>
+        <div class="confnarrow"> {{ value }} </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div id="conftable" class="conftable">
+      Local Conditions:
+      {% for key, value in confdict1.items() %}
+      <div class="row">
+        <div class="confwide"> {{ key }} </div>
+        <div class="confnarrow"> {{ value }} </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div id="conftable" class="conftable">
+      Zero Configuration:
+      {% for key, value in confdict2.items() %}
+      <div class="row">
+        <div class="confwide"> {{ key }} </div>
+        <div class="confnarrow"> {{ value }} </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="buttoncontainer">
+    <div class="buttoncontainercenter">
+      <button id="confbtn">Display Options</button>
+    </div>
+  </div>
+  <div id="coreout">
+    <table  id="maintable" class="center">
+      <colgroup>
+        <!--
+        <col id="col_yards" style="background-color:red">
+        <col id="col_meters" style="background-color:crimson">
+        -->
+        <col id="col_yards">
+        <col id="col_meters">
+      </colgroup>
+      <colgroup>
+        <!--
+        <col id="col_dinch" style="background-color:palegreen">
+        <col id="col_dcent" style="background-color:lightgreen">
+        <col id="col_dmoa" style="background-color:springgreen">
+        <col id="col_dmil" style="background-color:mediumspringgreen">
+        -->
+        <col id="col_dinch">
+        <col id="col_dcent">
+        <col id="col_dmoa">
+        <col id="col_dmil">
+      </colgroup>
+      <colgroup>
+        <!--
+        <col id="col_hinch" style="background-color:yellow">
+        <col id="col_hcent" style="background-color:gold">
+        <col id="col_hmoa" style="background-color:orange">
+        <col id="col_hmil" style="background-color:darkorange">
+        -->
+        <col id="col_hinch">
+        <col id="col_hcent">
+        <col id="col_hmoa">
+        <col id="col_hmil">
+      </colgroup>
+      <colgroup>
+        <!--
+        <col id="col_vfps" style="background-color:gray">
+        <col id="col_vmps" style="background-color:dimgray">
+        -->
+        <col id="col_vfps">
+        <col id="col_vmps">
+      </colgroup>
+      <!--
+      <col id="col_kine" style="background-color:magenta">
+      <col id="col_time" style="background-color:palevioletred">
+      -->
+      <col id="col_kine">
+      <col id="col_time">
+      <thead>
+        <tr>
+          <th class="grphdr" colspan="2">Range</th>
+          <th class="grphdr" colspan="4">Drop</th>
+          <th class="grphdr" colspan="4">Drift</th>
+          <th class="grphdr" colspan="2">Velocity</th>
+          <th class="grphdr" rowspan="2">Kinetic Energy</th>
+          <th class="grphdr" rowspan="2">Time</th>
+        <tr>
+          <th>Yards</th>
+          <th>Meters</th>
+          <th>Inches</th>
+          <th>Centimeters</th>
+          <th>MOA</th>
+          <th>Mil</th>
+          <th>Inches</th>
+          <th>Centimeters</th>
+          <th>MOA</th>
+          <th>Mil</th>
+          <th>FPS</th>
+          <th>MPS</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in myList %}
+        <tr>
+          <td>{{item["yards"]}}</td>
+          <td>{{item["meters"]}}</td>
+          <td>{{item["dinch"]}}</td>
+          <td>{{item["dcent"]}}</td>
+          <td>{{item["dmoa"]}}</td>
+          <td>{{item["dmil"]}}</td>
+          <td>{{item["hinch"]}}</td>
+          <td>{{item["hcent"]}}</td>
+          <td>{{item["hmoa"]}}</td>
+          <td>{{item["hmil"]}}</td>
+          <td>{{item["vfps"]}}</td>
+          <td>{{item["vmps"]}}</td>
+          <td>{{item["kine"]}}</td>
+          <td>{{item["time"]}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <!--
+    <br />
+    <br />
+    <br />
+    <br />
+    <div class="divTable">
+      <div class="divBody">
+        <div class="divTableHeading">
+          <div class="divTableHead">
+            Range
+          </div>
+        </div>
+        <div class="divTableHead">
+          <div id="col_yards" class="divTableHead">
+            Yards
+          </div>
+          <div id="col_meters" class="divTableHead">
+            Meters
+          </div>
+        </div>
+        <div class="divTableRow">
+          <div class="divTableCell">
+            <div id="col_yards" class="divTableCell">
+              1
+            </div>
+            <div id="col_meters" class="divTableCell">
+              2
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    -->
+  </div>
+
+</div>
+<script type="text/javascript">
+  var collapsible_items = document.getElementsByClassName("collapsible");
+  var i;
+  for (i = 0; i < collapsible_items.length; i++) {
+      collapsible_items[i].addEventListener("click", function() {
+          this.classList.toggle("active");
+          var content = this.nextElementSibling;
+          if (content.style.maxHeight){
+              content.style.maxHeight = null;
+          } else {
+              content.style.maxHeight = content.scrollHeight + "px";
+          }
+        });
+    }
+
+  var revcollapsible_items = document.getElementsByClassName("revcollapsible");
+  var j;
+  for (j = 0; j < revcollapsible_items.length; j++) {
+      revcollapsible_items[j].addEventListener("click", function() {
+          this.classList.toggle("active");
+          var content = this.nextElementSibling;
+          if (content.style.maxHeight != "0px"){
+              content.style.maxHeight = "0px";
+          } else {
+              content.style.maxHeight = "100%";
+          }
+        });
+    }
+
+  var modal = document.getElementById("confpop");
+  var modalbtn = document.getElementById("confbtn");
+  var span = document.getElementsByClassName("close")[0];
+
+  //When user clicks the button, display the modal
+  modalbtn.onclick = function() {
+    modal.style.display = "block";
+  }
+
+  //When user clicks the 'x' close the modal
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+
+  //When the user clicks anywhere outside the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // If necessary set defaults
+
+  // Muzzle Velocity - FPS (default) or MPS
+  radiobtn = document.getElementById("{{ myData.unitsp }}");
+  radiobtn.checked = true;
+
+  // Zero Range Unit - Yards (default) or Meters
+  if ( "{{ myData.unitzero }}" === "m" ) {
+    zerobtn = document.getElementById("range-meters");
+  } else {
+    zerobtn = document.getElementById("range-yards");
+  }
+  zerobtn.checked = true;
+
+  // Drag Function - G1 by default
+  selectbtn = document.getElementById("dragfunc");
+  selectbtn.value = "{{ myData.dragfunc }}";
+  // ---------------------------------------------------------------------------
+
+  function filterzero()
+  {
+    var zeroselect = document.getElementById("zerofilter").value;
+
+    if ( zeroselect === "range" ) {
+      document.getElementById("zeroborerow").style.visibility = "collapse";
+      document.getElementById("zerorangerow").style.visibility= "";
+    } else {
+      document.getElementById("zeroborerow").style.visibility = "";
+      document.getElementById("zerorangerow").style.visibility= "collapse";
+    }
+  }
+
+  function filteroutput()
+  {
+      var outtable = document.getElementById("maintable");
+      var displayfilter = document.getElementById("typefilter").value;
+      var intervalfilter = document.getElementById("intervalfilter").value;
+      var velocityfilter = document.getElementById("velocityfilter").value;
+
+      var col_yards = document.getElementById("col_yards")
+      var col_meters = document.getElementById("col_meters")
+      if ( displayfilter === "yards" ) {
+          if (col_yards) {
+              col_yards.style.visibility = ""
+          }
+          if (col_meters) {
+              col_meters.style.visibility = "collapse"
+          }
+      } else if ( displayfilter === "meters" ) {
+          if (col_yards) {
+              col_yards.style.visibility = "collapse"
+          }
+          if (col_meters) {
+              col_meters.style.visibility = ""
+          }
+      } else {
+          if (col_yards) {
+              col_yards.style.visibility = ""
+          }
+          if (col_meters) {
+              col_meters.style.visibility = ""
+          }
+      }
+
+      var col_vfps = document.getElementById("col_vfps")
+      var col_vmps = document.getElementById("col_vmps")
+      if ( velocityfilter === "fps" ) {
+          if (col_vfps) {
+              col_vfps.style.visibility = ""
+          }
+          if (col_vmps) {
+              col_vmps.style.visibility = "collapse"
+          }
+      } else if ( velocityfilter === "mps" ) {
+          if (col_vfps) {
+              col_vfps.style.visibility = "collapse"
+          }
+          if (col_vmps) {
+              col_vmps.style.visibility = ""
+          }
+      } else if ( velocityfilter === "neither" ) {
+          if (col_vfps) {
+              col_vfps.style.visibility = "collapse"
+          }
+          if (col_vmps) {
+              col_vmps.style.visibility = "collapse"
+          }
+      } else {
+          if (col_vfps) {
+              col_vfps.style.visibility = ""
+          }
+          if (col_vmps) {
+              col_vmps.style.visibility = ""
+          }
+      }
+
+      for (var outrow = 2; thisrow=outtable.rows[outrow]; outrow++) {
+          // alert(outrow);
+          rowyards = thisrow.cells[0].innerHTML;
+          rowmeters = thisrow.cells[1].innerHTML;
+          // alert(rowyards);
+          if ( displayfilter === "yards" ) {
+              if ( rowyards % 1 === 0 ) {
+                  thisrow.style.display = "";
+              } else {
+                  thisrow.style.display = "none";
+              }
+          } else if ( displayfilter === "meters" ) {
+              if ( rowmeters % 1 === 0 ) {
+                  thisrow.style.display = "";
+              } else {
+                  thisrow.style.display = "none";
+              }
+          } else {
+              thisrow.style.display = "";
+          }
+
+          if ( rowyards % intervalfilter === 0 || rowmeters % intervalfilter === 0 ) {
+              if (thisrow.style.display != "none" ) {
+                  thisrow.style.display = "";
+              }
+          } else {
+              if (thisrow.style.display != "none" ) {
+                  thisrow.style.display = "none";
+              }
+          }
+        }
+
+      var cb_dinch = document.getElementById("cb_dinch")
+      var cb_dcent = document.getElementById("cb_dcent")
+      var cb_dmoa = document.getElementById("cb_dmoa")
+      var cb_dmil = document.getElementById("cb_dmil")
+
+      var col_dinch = document.getElementById("col_dinch")
+      var col_dcent = document.getElementById("col_dcent")
+      var col_dmoa = document.getElementById("col_dmoa")
+      var col_dmil = document.getElementById("col_dmil")
+
+      if ( cb_dinch.checked ) {
+          col_dinch.style.visibility = ""
+      } else {
+          col_dinch.style.visibility = "collapse"
+      }
+
+      if ( cb_dcent.checked ) {
+          col_dcent.style.visibility = ""
+      } else {
+          col_dcent.style.visibility = "collapse"
+      }
+
+      if ( cb_dmoa.checked ) {
+          col_dmoa.style.visibility = ""
+      } else {
+          col_dmoa.style.visibility = "collapse"
+      }
+
+      if ( cb_dmil.checked ) {
+          col_dmil.style.visibility = ""
+      } else {
+          col_dmil.style.visibility = "collapse"
+      }
+
+
+      var cb_hinch = document.getElementById("cb_hinch")
+      var cb_hcent = document.getElementById("cb_hcent")
+      var cb_hmoa = document.getElementById("cb_hmoa")
+      var cb_hmil = document.getElementById("cb_hmil")
+
+      var col_hinch = document.getElementById("col_hinch")
+      var col_hcent = document.getElementById("col_hcent")
+      var col_hmoa = document.getElementById("col_hmoa")
+      var col_hmil = document.getElementById("col_hmil")
+
+      if ( cb_hinch.checked ) {
+          col_hinch.style.visibility = ""
+      } else {
+          col_hinch.style.visibility = "collapse"
+      }
+
+      if ( cb_hcent.checked ) {
+          col_hcent.style.visibility = ""
+      } else {
+          col_hcent.style.visibility = "collapse"
+      }
+
+      if ( cb_hmoa.checked ) {
+          col_hmoa.style.visibility = ""
+      } else {
+          col_hmoa.style.visibility = "collapse"
+      }
+
+      if ( cb_hmil.checked ) {
+          col_hmil.style.visibility = ""
+      } else {
+          col_hmil.style.visibility = "collapse"
+      }
+
+      var cb_time = document.getElementById("cb_time")
+      var cb_kine = document.getElementById("cb_kine")
+
+      var col_time = document.getElementById("col_time")
+      var col_kine = document.getElementById("col_kine")
+
+      if ( cb_time.checked ) {
+          col_time.style.visibility = ""
+      } else {
+          col_time.style.visibility = "collapse"
+      }
+
+      if ( cb_kine.checked ) {
+          col_kine.style.visibility = ""
+      } else {
+          col_kine.style.visibility = "collapse"
+      }
+  }
+
+  function cleardisplayopts() {
+    // Set Display items back to defaults and remove stored items from localstorage.
+    // It would be more efficient to use 'localStorage.clear()' but that might 
+    // cause problems if we expand what is stored.
+    filter_typefilter = document.getElementById("typefilter");
+    filter_typefilter.value = "both";
+    localStorage.removeItem('typefilter');
+
+    filter_intervalfilter = document.getElementById("intervalfilter");
+    filter_intervalfilter.value = "25";
+    localStorage.removeItem("intervalfilter");
+
+    filter_velocityfilter = document.getElementById("velocityfilter");
+    filter_velocityfilter.value = "both";
+    localStorage.removeItem('velocityfilter');
+
+    filter_cb_dinch = document.getElementById("cb_dinch");
+    filter_cb_dinch.checked = true;
+    localStorage.removeItem('cb_dinch');
+
+    filter_cb_dcent = document.getElementById("cb_dcent");
+    filter_cb_dcent.checked = true;
+    localStorage.removeItem('cb_dcent');
+
+    filter_cb_dmoa = document.getElementById("cb_dmoa");
+    filter_cb_dmoa.checked = true;
+    localStorage.removeItem('cb_dmoa');
+
+    filter_cb_dmil = document.getElementById("cb_dmil");
+    filter_cb_dmil.checked = true;
+    localStorage.removeItem('cb_dmil');
+
+    filter_cb_hinch = document.getElementById("cb_hinch");
+    filter_cb_hinch.checked = true;
+    localStorage.removeItem('cb_hinch');
+
+    filter_cb_hcent = document.getElementById("cb_hcent");
+    filter_cb_hcent.checked = true;
+    localStorage.removeItem('cb_hcent');
+
+    filter_cb_hmoa = document.getElementById("cb_hmoa");
+    filter_cb_hmoa.checked = true;
+    localStorage.removeItem('cb_hmoa');
+
+    filter_cb_hmil = document.getElementById("cb_hmil");
+    filter_cb_hmil.checked = true;
+    localStorage.removeItem('cb_hmil');
+
+    filter_cb_kine = document.getElementById("cb_kine");
+    filter_cb_kine.checked = true;
+    localStorage.removeItem('cb_kine');
+
+    filter_cb_time = document.getElementById("cb_time");
+    filter_cb_time.checked = true;
+    localStorage.removeItem('cb_time');
+  }
+
+  function runclear() {
+    cleardisplayopts();
+    filteroutput();
+  }
+
+  function savedisplayopts() {
+    filter_typefilter = document.getElementById('typefilter');
+    localStorage.setItem("typefilter", filter_typefilter.value)
+
+    filter_intervalfilter = document.getElementById('intervalfilter');
+    localStorage.setItem("intervalfilter", filter_intervalfilter.value)
+
+    filter_velocityfilter = document.getElementById('velocityfilter');
+    localStorage.setItem("velocityfilter", filter_velocityfilter.value)
+
+    filter_cb_dinch = document.getElementById('cb_dinch');
+    localStorage.setItem("cb_dinch", filter_cb_dinch.checked)
+
+    filter_cb_dcent = document.getElementById('cb_dcent');
+    localStorage.setItem("cb_dcent", filter_cb_dcent.checked)
+
+    filter_cb_dmoa = document.getElementById('cb_dmoa');
+    localStorage.setItem("cb_dmoa", filter_cb_dmoa.checked)
+
+    filter_cb_dmil = document.getElementById('cb_dmil');
+    localStorage.setItem("cb_dmil", filter_cb_dmil.checked)
+
+    filter_cb_hinch = document.getElementById('cb_hinch');
+    localStorage.setItem("cb_hinch", filter_cb_hinch.checked)
+
+    filter_cb_hcent = document.getElementById('cb_hcent');
+    localStorage.setItem("cb_hcent", filter_cb_hcent.checked)
+
+    filter_cb_hmoa = document.getElementById('cb_hmoa');
+    localStorage.setItem("cb_hmoa", filter_cb_hmoa.checked)
+
+    filter_cb_hmil = document.getElementById('cb_hmil');
+    localStorage.setItem("cb_hmil", filter_cb_hmil.checked)
+
+    filter_cb_kine = document.getElementById('cb_kine');
+    localStorage.setItem("cb_kine", filter_cb_kine.checked)
+
+    filter_cb_time = document.getElementById('cb_time');
+    localStorage.setItem("cb_time", filter_cb_time.checked)
+  }
+
+  function setdisplayopts() {
+    // Set Defaults for Display Filters
+    filter_typefilter = document.getElementById("typefilter");
+    if (localStorage["typefilter"]) {
+        switch(localStorage.getItem('typefilter'))
+          {
+            case "yards":
+            filter_typefilter.value = "yards";
+            break;
+            case "meters":
+            filter_typefilter.value = "meters";
+            break;
+            default:
+            filter_typefilter.value = "both";
+          }
+    } else {
+        filter_typefilter.value = "both";
+    }
+
+    filter_intervalfilter = document.getElementById("intervalfilter");
+    if (localStorage["intervalfilter"]) {
+        filter_intervalfilter.value = localStorage.getItem("intervalfilter");
+    } else {
+        filter_intervalfilter.value = "25";
+    }
+
+    filter_velocityfilter = document.getElementById("velocityfilter");
+    if (localStorage["velocityfilter"]) {
+        switch(localStorage.getItem('velocityfilter'))
+          {
+            case "fps":
+            filter_velocityfilter.value = "fps";
+            break;
+            case "mps":
+            filter_velocityfilter.value = "mps";
+            break;
+            case "neither":
+            filter_velocityfilter = "neither";
+            default:
+            filter_velocityfilter.value = "both";
+          }
+    } else {
+        filter_velocityfilter.value = "both";
+    }
+
+    filter_cb_dinch = document.getElementById("cb_dinch");
+    if (localStorage["cb_dinch"]) {
+      var tmpvar = localStorage.getItem("cb_dinch");
+      if (localStorage.getItem('cb_dinch') == "true") {
+        filter_cb_dinch.checked = true;
+      } else {
+        filter_cb_dinch.checked = false;
+      }
+    } else {
+      filter_cb_dinch.checked = true;
+    }
+
+    filter_cb_dcent = document.getElementById("cb_dcent");
+    if (localStorage["cb_dcent"]) {
+      if (localStorage.getItem('cb_dcent') == "true") {
+        filter_cb_dcent.checked = true;
+      } else {
+        filter_cb_dcent.checked = false;
+      }
+    } else {
+      filter_cb_dcent.checked = true;
+    }
+
+    filter_cb_dmoa = document.getElementById("cb_dmoa");
+    if (localStorage["cb_dmoa"]) {
+      if (localStorage.getItem('cb_dmoa') == "true") {
+        filter_cb_dmoa.checked = true;
+      } else {
+        filter_cb_dmoa.checked = false;
+      }
+    } else {
+      filter_cb_dmoa.checked = true;
+    }
+
+    filter_cb_dmil = document.getElementById("cb_dmil");
+    if (localStorage["cb_dmil"]) {
+      if (localStorage.getItem('cb_dmil') == "true") {
+        filter_cb_dmil.checked = true;
+      } else {
+        filter_cb_dmil.checked = false;
+      }
+    } else {
+      filter_cb_dmil.checked = true;
+    }
+
+    filter_cb_hinch = document.getElementById("cb_hinch");
+    if (localStorage["cb_hinch"]) {
+      if (localStorage.getItem('cb_hinch') == "true") {
+        filter_cb_hinch.checked = true;
+      } else {
+        filter_cb_hinch.checked = false;
+      }
+    } else {
+      filter_cb_hinch.checked = true;
+    }
+
+    filter_cb_hcent = document.getElementById("cb_hcent");
+    if (localStorage["cb_hcent"]) {
+      if (localStorage.getItem('cb_hcent') == "true") {
+        filter_cb_hcent.checked = true;
+      } else {
+        filter_cb_hcent.checked = false;
+      }
+    } else {
+      filter_cb_hcent.checked = true;
+    }
+
+    filter_cb_hmoa = document.getElementById("cb_hmoa");
+    if (localStorage["cb_hmoa"]) {
+      if (localStorage.getItem('cb_hmoa') == "true") {
+        filter_cb_hmoa.checked = true;
+      } else {
+        filter_cb_hmoa.checked = false;
+      }
+    } else {
+      filter_cb_hmoa.checked = true;
+    }
+
+    filter_cb_hmil = document.getElementById("cb_hmil");
+    if (localStorage["cb_hmil"]) {
+      if (localStorage.getItem('cb_hmil') == "true") {
+        filter_cb_hmil.checked = true;
+      } else {
+        filter_cb_hmil.checked = false;
+      }
+    } else {
+      filter_cb_hmil.checked = true;
+    }
+
+    filter_cb_kine = document.getElementById("cb_kine");
+    if (localStorage["cb_kine"]) {
+      if (localStorage.getItem('cb_kine') == "true") {
+        filter_cb_kine.checked = true;
+      } else {
+        filter_cb_kine.checked = false;
+      }
+    } else {
+      filter_cb_kine.checked = true;
+    }
+
+    filter_cb_time = document.getElementById("cb_time");
+    if (localStorage["cb_time"]) {
+      if (localStorage.getItem('cb_time') == "true") {
+        filter_cb_time.checked = true;
+      } else {
+        filter_cb_time.checked = false;
+      }
+    } else {
+      filter_cb_time.checked = true;
+    }
+  }
+
+  window.onload = function() {
+    filterzero();
+    setdisplayopts();
+    filteroutput();
+  }
+</script>
+<noscript>Please enable Javascript.</noscript>
+</body>
+</html>

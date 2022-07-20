@@ -1,0 +1,657 @@
+body {
+    background: Linen;
+    margin-top: 50px;
+    margin-left: 10px;
+}
+
+
+/* Style for primary form container */
+.maincontainer {
+    position: relative;
+    margin: 0 auto;
+    /*
+    width: 90%;
+    max-width: 1000px;
+    min-width: 375px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    border: 1px dotted black;
+    border-radius: 8px;
+    padding: 1.5em;
+    */
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/*
+.collapsible {
+    background-color: #777;
+    color: white;
+    cursor: pointer;
+    padding: 18ps;
+    width: 100%;
+    border: 1px solid;
+    text-align: left;
+    outline: none;
+    border-radius: 15px 15px;
+    padding: 0px 25px;
+}
+
+.collapsible:after {
+    content: '\002B';
+    color: white;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+}
+.active, .collapsible:hover {
+    background-color: #555;
+}
+
+.active:after {
+    content: "\2212";
+}
+
+
+.revcollapsible {
+    border: none;
+    background-color: inherit;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1em;
+    text-align: left;
+    width: 100%;
+}
+
+.revcollapsible:after {
+    content: "\2212";
+    float: left;
+}
+
+.revcollapsible.active:after {
+    content: '\002B';
+
+}
+
+
+.content {
+    margin-top: -2px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 92%;
+    padding: 0 18px;
+    max-height: 0;
+    overflow: hidden;
+    border-bottom: 1px solid;
+    border-left: 1px solid;
+    border-right: 1px solid;
+    transition: max-height 0.2s ease-out;
+    background-color: #f1f1f1;
+    border-bottom-left-radius: 50px 20px;
+    border-bottom-right-radius: 50px 20px;
+}
+
+.revcontent {
+    max-height: 100%;
+    width: 92%;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+
+}
+*/
+
+.popup {
+    background-color: #ffffff;
+    height: 100%;
+    width: 100%;
+    display: none;
+    position: fixed;
+    z-index: 10;
+    padding-top: 100px;
+    top: 0;
+    overflow: auto;
+    background-color: rgb(0,0,0); /* fallback color */
+    background-color: rgba(0,0,0,0.4); /* black with opacity */
+}
+
+.popup-content {
+    background-color: #fefefe;
+    border-radius: 15px 15px;
+    width: fit-content;
+    height: fit-content;
+    margin: auto;
+    padding: 10px;
+    border: 1px solid;
+}
+
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+table {
+    border: 1px solid;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: scroll;
+    table-layout: fixed;
+}
+
+table tr:hover {
+    background-color: lightgray;
+}
+
+table th {
+    /* apply both top and bottom borders to <th> */
+    border-bottom: 2px solid;
+    border-right: 2px solid;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 0.6em;
+    font-weight: bold;
+    background-color: DarkGoldenrod;
+
+}
+
+.grphdr {
+    padding-left: 10px;
+    text-align: left;
+}
+
+table td {
+    border-bottom: 2px solid;
+    border-right: 2px solid;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 0.75em;
+    width: 7%;
+}
+
+table th:first-child,
+table td:first-child {
+    /* apply a left border to first <th> or <td> in a row */
+    border-left: 2px solid;
+}
+
+table thead {
+    position: sticky;
+    top: 0;
+    border: 1px solid;
+}
+
+table thead tr:first-child th {
+    border-top: 2px solid;
+}
+
+/*
+table tr:nth-child(even) {
+    background-color: tan;
+}
+
+table tr:nth-child(odd) {
+    background-color: wheat;
+}
+*/
+
+/* Table Column Backgrounds */
+#col_yards, #col_meters {
+    /* Misty Rose */
+    background-color: rgb(255,228,225); /* fallback color */
+    background-color: rgba(255,228,225,0.6); /* black with opacity */
+}
+
+#col_dinch, #col_dcent, #col_dmoa, #col_dmil {
+    /* Antique White */
+    background-color: rgb(250,235,215); /* fallback color */
+    background-color: rgba(250,235,215,0.6); /* black with opacity */
+}
+
+#col_hinch, #col_hcent, #col_hmoa, #col_hmil {
+    /* Floral White */
+    background-color: rgb(255,250,240); /* fallback color */
+    background-color: rgba(255,250,240,0.6); /* black with opacity */
+}
+
+#col_fps, #col_mps {
+    /* Lavender Bush */
+    background-color: rgb(255,240,245); /* fallback color */
+    background-color: rgba(255,240,245,0.6); /* black with opacity */
+}
+
+#col_kine {
+    /* Beige */
+    background-color: rgb(245,245,220); /* fallback color */
+    background-color: rgba(245,245,220,0.6); /* black with opacity */
+}
+
+#col_yards, #col_meters {
+    /* Seashell */
+    background-color: rgb(255,245,238); /* fallback color */
+    background-color: rgba(255,245,238,0.6); /* black with opacity */
+}
+
+.confcontainer {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-bottom: 3px;
+}
+.confcontainer.space-around {
+    justify-content: space-around;
+}
+
+.confcontainer.space-between {
+    justify-content: space-between;
+}
+
+.confcontainer.space-evenly {
+    justify-content: space-evenly;
+}
+
+.confcontainer.stretch {
+    justify-content: stretch;
+}
+
+.confcontainer.center {
+    justify-content: center;
+}
+
+/*
+table.conftable {
+    border: none;
+    border-collapse: none;
+    border-spacing: 0;
+    overflow: scroll;
+}
+
+table.confftable tr:hover{
+    background-color: none;
+}
+
+
+table.conftable td {
+    border: none;
+    padding: 0px 5px;
+    text-align: left;
+    white-space: nowrap;
+}
+*/
+
+ul {
+    list-style-type: none;
+    display: table-cell;
+}
+
+li {
+    float: left;
+    padding: 0 1em;
+}
+
+/* Style Inputs, select elements and text areas */
+select {
+    background-color: Linen;
+    outline: none;
+    border: 0;
+    border-bottom: 1px solid #000;
+}
+
+/* to align label with radio button */
+/*
+input[type=radio]{
+    vertical-align: sub;
+}
+*/
+
+input[type=text], input[type=url], textarea{
+    background-color: Linen;
+    border: 0;
+    border-bottom: 1px solid #000;
+    outline: none;
+    text-align: center;
+    width: 100%;
+}
+    /* box-sizing: border-box; */
+    /* border-radius: 4px; */
+    /* resize: vertical; */
+
+input[type=number] {
+    background-color: Linen;
+    width: 100%;
+    outline: none;
+    border: 0;
+    border-bottom: 1px solid #cecece;
+}
+
+/* Style label to display next to the inputs */
+label {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+/* Style the submit button */
+input[type=submit] {
+    background-color: #04AA6D;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+}
+
+.buttoncontainer {
+    display: block;
+    position: relative;
+    height: 30px;
+}
+
+.buttoncontainercenter {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+/* divtable for calc */
+.divTable {
+    display: table;
+    table-layout: fixed;
+}
+
+.divTableBody {
+    display: table-row-group;
+}
+
+.divTableRow {
+    display: table-row;
+}
+
+.blankrow {
+    height: 8px
+}
+
+.labeldiv {
+    position: relative;
+    height: 30px;
+}
+
+.longlabel {
+    display: block;
+    float: right;
+    left: 25px;
+    margin: auto;
+    position: absolute;
+    top: 10px;
+    z-index: 5;
+}
+
+.sectfirstrow {
+    border: 0;
+    border-top: 1px solid Black;
+}
+
+.sectfirstrow:first-child {
+    border: 0;
+    border-left: 1px solid Black;
+    border-top: 1px solid Black;
+    border-top-left-radius: 8px;
+}
+
+.sectfirstrow:last-child {
+    border: 0;
+    border-right: 1px solid Black;
+    border-top: 1px solid Black;
+    border-top-right-radius: 8px;
+}
+
+.sectmidrow {
+    border: 0;
+}
+
+.sectmidrow:first-child {
+    border: 0;
+    border-left: 1px solid Black;
+}
+
+.sectmidrow:last-child {
+    border: 0;
+    border-right: 1px solid Black;
+}
+
+.sectlastrow {
+    border: 0;
+    border-bottom: 1px solid Black;
+}
+
+.sectlastrow:first-child {
+    border: 0;
+    border-left: 1px solid Black;
+    border-bottom: 1px solid Black;
+    border-bottom-left-radius: 8px;
+}
+
+.sectlastrow:last-child {
+    border: 0;
+    border-right: 1px solid Black;
+    border-bottom: 1px solid Black;
+    border-bottom-right-radius: 8px;
+}
+
+.divTableHeading {
+    background-color: #EEE;
+    display: table-header-group;
+    font-weight: bold;
+}
+
+.divTableFoot {
+    background-color: #EEE;
+    display: table-footer-group;
+    font-weight: bold;
+}
+
+.divTableCell,
+.divTableHead {
+    /* border: 1px solid #999999; */
+    display: table-cell;
+    padding: 3px 10px;
+    white-space: nowrap;
+    font-size: 0.8em;
+    /* align: left; */
+}
+
+/* Special formating for left columns */
+.divTableCell:nth-child(1) {
+    text-align: right;
+    font-size: 0.8em;
+}
+
+/* Special formating for second columns */
+.divTableCell:nth-child(2) {
+    font-size: 0.8em;
+    width: 75px;
+    /* background-color: blue; */
+}
+
+/*
+.divTableCell:nth-child(3) {
+    font-size: 0.8em;
+    background-color: red;
+}
+*/
+/* Set columns for wrapping div */
+
+.calc {
+    width: 100%;
+}
+
+/* Floating Column for labels: 25% width */
+.col-25 {
+    float: left;
+    text-align: right;
+    width: 25%;
+    margin-top: 6px;
+}
+
+.col-left {
+    float: left;
+    display: inline-block;
+    border-right: 1px solid;
+    text-align: right;
+    white-space: nowrap;
+    margin-top: 6px;
+}
+
+/* Floating Column for inputs: 75% width */
+.col-75 {
+    float: left;
+    width: 75%;
+    margin-top: 6px;
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+.col-75a {
+    float: left;
+    margin-right: 10px;
+}
+
+.col-75b {
+    float: left;
+}
+
+.col-right {
+    float: left;
+    display: inline-block;
+    align: right;
+    margin-top: 6px;
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+.col-righta {
+    float: left;
+    margin-right: 10px;
+}
+
+.col-rightb {
+    float: left;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.conftable {
+    margin-left: 1%;
+    margin-right: 1%;
+}
+
+.conftable:nth-child(1) {
+    margin-left: 2%;
+    width: 35%;
+}
+
+.conftable:nth-child(2) {
+    width: 25%;
+}
+
+.conftable:nth-child(3) {
+    margin-right: 2%;
+    width: 35%
+}
+
+.confwide {
+    float: left;
+    text-align: left;
+    width: 60%;
+    white-space: nowrap;
+    font-size: 0.6em;
+}
+
+.confnarrow {
+    float: left;
+    width: 35%;
+    text-align: right;
+    white-space: nowrap;
+    font-size: 0.6em;
+    margin-left: 5%;
+}
+
+
+/* Responsive Layout - when screen is less than 600px wide, make the two columns 
+ * stack on top of each other instead of next to each other */
+@media screen and (max-width: 625px) {
+    .col-25, .col-75, .col-left, .col-right, input[type=submit] {
+        text-align: left;
+        width: 100%;
+        margin-top: 0px;
+    }
+
+    .col-25, .col-left {
+        margin-top: 10px;
+    }
+
+    /* Special formating for left columns */
+    .divTableCell-left {
+        text-align: right;
+        font-size: 0.6em;
+    }
+
+    .confcontainer {
+        display: block;
+        margin: 10px auto;
+    }
+
+    .conftable:nth-child(1) {
+        margin-left: 1%;
+        width: 50%;
+    }
+
+    .conftable:nth-child(2) {
+        width: 50%;
+    }
+
+    .conftable:nth-child(3) {
+        width: 50%
+    }
+
+}
+
+/*
+@media screen and (max-width: 900px) {
+    .conftable {
+        font-size: 0.6em;
+    }
+
+    .confwide, .confnarrow {
+        font-size: 0.45em;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .confwide, .confnarrow {
+        font-size: 0.5em;
+    }
+}
+
+@media screen and (max-width: 1100px) {
+    .confwide, .confnarrow {
+        font-size: 0.55em;
+    }
+}
+*/
