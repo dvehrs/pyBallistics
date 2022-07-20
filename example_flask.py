@@ -14,7 +14,7 @@ from utils import inchToCm
 
 #app = Flask(__name__)
 #app = Flask(__name__, root_path='flask_files/')
-app = Flask(__name__, root_path=os.path.join(os.getcwd(), 'flask_files/'))
+app = Flask(__name__, root_path=os.path.join(os.getcwd(), 'FlaskFiles/'))
 app.config.from_pyfile('config.py')
 
 # Caching is useful for apps and data that do not change frequently.  Be
@@ -93,8 +93,8 @@ def base():
 #    print("bullet weight: ", buildconf['bullet weight'])
 #    print("velocity - muzzle: ", buildconf['velocity - muzzle'])
 #    print("sight height: ", buildconf['sight height'])
-    print("zero range: ", buildconf['zero - distance'])
-    print("zero unit: ", buildconf['zero - unit'])
+#    print("zero range: ", buildconf['zero - distance'])
+#    print("zero unit: ", buildconf['zero - unit'])
 
     configuration, hold_overs = calcBDC(buildconf)
 
