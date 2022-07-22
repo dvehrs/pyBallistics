@@ -42,7 +42,14 @@ def base():
             "sheight": 1.6,
             "sangle": 1,
             "wspeed": 1,
-            "wangle": 1
+            "unit_wndspd": "mph",
+            "wangle": 1,
+            "altitude": 1,
+            "unit_altitude": "feet",
+            "temperature": 59,
+            "unit_temp": "fahrenheit",
+            "barometric": 29.92,
+            "humidity": 50
         }
 
         # for base page default values, it seems to be best to not include
@@ -66,13 +73,19 @@ def base():
 
     buildconf['drag function'] = my_data['dragfunc'] if 'dragfunc' in my_data else 'G1'
 
-    buildconf['altitude'] = 0
-    buildconf['barometer'] = 29.92
-    buildconf['temperature'] = 59
-    buildconf['humidity - relative'] =  0.5
-
     buildconf['wind - speed'] = float(my_data['wspeed']) if 'wspeed' in my_data else 10
+    buildconf['wind - unit'] = my_data['unit_wndspd'] if 'unit_wndspd' in my_data else "mph"
     buildconf['wind - angle'] = float(my_data['wangle']) if 'wangle' in my_data else 90
+    buildconf['altitude'] = float(my_data['altitude']) if 'altitude' in my_data else 0
+    buildconf['altitude - unit'] = my_data['unit_altitude'] \
+            if 'unit_altitude' in my_data else "feet"
+    buildconf['temperature'] = float(my_data['temperature']) if 'temperature' in my_data else 59
+    buildconf['temperature - unit'] = my_data['unit_temp'] \
+            if 'unit_temp' in my_data else "fahrenheit"
+    buildconf['barometer'] = float(my_data['barometric']) if 'barometric' in my_data else 29.92
+    buildconf['humidity - relative'] = float(my_data['humidity'])/100 \
+            if 'humidity' in my_data else  0.5
+
 
     #buildconf['angle - bore'] = float(my_data['bangle']) if 'bangle' in my_data else None
     #buildconf['angle - bore'] = None
