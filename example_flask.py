@@ -49,7 +49,8 @@ def base():
             "temperature": 59,
             "unit_temp": "fahrenheit",
             "barometric": 29.92,
-            "humidity": 50
+            "humidity": 50,
+            "localadjust" : False
         }
 
         # for base page default values, it seems to be best to not include
@@ -73,6 +74,7 @@ def base():
 
     buildconf['drag function'] = my_data['dragfunc'] if 'dragfunc' in my_data else 'G1'
 
+    buildconf['localadjust'] = my_data['localadjust'] if 'localadjust' in my_data else False
     buildconf['wind - speed'] = float(my_data['wspeed']) if 'wspeed' in my_data else 10
     buildconf['wind - unit'] = my_data['unit_wndspd'] if 'unit_wndspd' in my_data else "mph"
     buildconf['wind - angle'] = float(my_data['wangle']) if 'wangle' in my_data else 90
@@ -108,6 +110,7 @@ def base():
 #    print("sight height: ", buildconf['sight height'])
 #    print("zero range: ", buildconf['zero - distance'])
 #    print("zero unit: ", buildconf['zero - unit'])
+    print("local adjust: ", buildconf['localadjust'])
 
     configuration, hold_overs = calcBDC(buildconf)
 

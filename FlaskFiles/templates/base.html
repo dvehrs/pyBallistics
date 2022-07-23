@@ -368,7 +368,7 @@
         <div class="divTableRow labeldiv">
           <div class="divTableCell sectfirstrow">
             <div class="longlabel">
-              <input type="checkbox" id="localadjust" name="localadjust" onclick="enablelocaladjust()" />
+              <input type="checkbox" value="True" id="localadjust" name="localadjust" onclick="enablelocaladjust()" />
               <label for="localadust">Adjust for local conditions</label>
             </div>
           </div>
@@ -383,7 +383,7 @@
           </div>
           <div class="divTableCell sectmidrow">
             <!-- <input type="number" name="wspeed" value={{ myData.wspeed }} required> -->
-            <input type="text" pattern="[.0-9]{1,4}" id="wspeed" name="wspeed" value={{ myData.wspeed }} disabled>
+            <input type="text" pattern="[.0-9]{1,4}" id="wspeed" name="wspeed" value={{ myData.wspeed }} readonly="readonly">
           </div>
           <div class="divTableCell sectmidrow">
             <label for="windspd-mph">
@@ -403,7 +403,7 @@
           </div>
           <div class="divTableCell sectmidrow">
             <!-- <input type="number" name="wangle" value={{ myData.wangle }} required> -->
-            <input type="text" pattern="[.0-9]{1,5}" id="wangle" name="wangle" value={{ myData.wangle }} disabled />
+            <input type="text" pattern="[.0-9]{1,5}" id="wangle" name="wangle" value={{ myData.wangle }} readonly="readonly" />
           </div>
           <div class="divTableCell sectmidrow">
             (degrees)
@@ -416,7 +416,7 @@
           </div>
           <div class="divTableCell sectmidrow">
             <!-- <input type="number" name="altitude" value={{ myData.altitude }} required> -->
-            <input type="text" pattern="[.0-9]{1,6}" id="altitude" name="altitude" value={{ myData.altitude }} disabled />
+            <input type="text" pattern="[.0-9]{1,6}" id="altitude" name="altitude" value={{ myData.altitude }} readonly="readonly" />
           </div>
           <div class="divTableCell sectmidrow">
             <label for="altitude-feet">
@@ -435,7 +435,7 @@
           </div>
           <div class="divTableCell sectmidrow">
             <!-- <input type="number" name="temperature" value={{ myData.temperature }} required> -->
-            <input type="text" pattern="[-.0-9]{1,4}" id="temperature" name="temperature" value={{ myData.temperature }} disabled />
+            <input type="text" pattern="[-.0-9]{1,4}" id="temperature" name="temperature" value={{ myData.temperature }} readonly="readonly" />
           </div>
           <div class="divTableCell sectmidrow">
             <label for="temp-c">
@@ -454,7 +454,7 @@
           </div>
           <div class="divTableCell sectmidrow">
             <!-- <input type="number" name="barometric" value={{ myData.barometric }} required> -->
-            <input type="text" pattern="[.0-9]{1,5}" id="barometric" name="barometric" value={{ myData.barometric }} disabled />
+            <input type="text" pattern="[.0-9]{1,5}" id="barometric" name="barometric" value={{ myData.barometric }} readonly="readonly" />
           </div>
           <div class="divTableCell sectmidrow">
             (hg)
@@ -466,7 +466,7 @@
           </div>
           <div class="divTableCell sectmidrow">
             <!-- <input type="number" name="humidity" value={{ myData.humidity }} required> -->
-            <input type="text" pattern="[.0-9]{1,5}" id="humidity" name="humidity" value={{ myData.humidity }} disabled />
+            <input type="text" pattern="[.0-9]{1,5}" id="humidity" name="humidity" value={{ myData.humidity }} readonly="readonly" />
           </div>
           <div class="divTableCell sectmidrow">
             (%)
@@ -725,62 +725,70 @@
   zerobtn.checked = true;
 
   // Wind Speed Unit - Miles Per Hour (MPH default) or Kilometers Per Hour (KPH)
-  if ( "{{ myData.unit_wndspd }}" === "mph" ) {
-    windbtn = document.getElementById("wndspd-mph");
-  } else {
+  if ( "{{ myData.unit_wndspd }}" === "kph" ) {
     windbtn = document.getElementById("wndspd-kph");
+  } else {
+    windbtn = document.getElementById("wndspd-mph");
   }
   windbtn.checked = true;
 
   // Altitude Unit - Feet (default) or Meters
-  if ( "{{ myData.unit_altitude }}" === "feet" ) {
-    altbtn = document.getElementById("altitude-feet");
-  } else {
+  if ( "{{ myData.unit_altitude }}" === "meters" ) {
     altbtn = document.getElementById("altitude-meters");
+  } else {
+    altbtn = document.getElementById("altitude-feet");
   }
   altbtn.checked = true;
 
   // Temperature Unit - Degrees Fahrenheit (default) or Degrees Centigrade
-  if ( "{{ myData.unit_temp }}" === "fahrenheit" ) {
-    tempbtn = document.getElementById("temp-f");
-  } else {
+  if ( "{{ myData.unit_temp }}" === "centigrade" ) {
     tempbtn = document.getElementById("temp-c");
+  } else {
+    tempbtn = document.getElementById("temp-f");
   }
   tempbtn.checked = true;
 
   // Drag Function - G1 by default
   selectbtn = document.getElementById("dragfunc");
   selectbtn.value = "{{ myData.dragfunc }}";
+
+  // Set local conditions adjust  - default false
+  if ( "{{ myData.localadjust }}" === "True" ) {
+    document.getElementById("localadjust").checked = true;
+  } else {
+    document.getElementById("localadjust").checked = false;
+  }
+
   // ---------------------------------------------------------------------------
 
   function enablelocaladjust()
   {
     if (document.getElementById("localadjust").checked) {
-      document.getElementById("wspeed").disabled = false;
+      document.getElementById("wspeed").readOnly = false;
       document.getElementById("wndspd-mph").disabled = false;
       document.getElementById("wndspd-kph").disabled = false;
-      document.getElementById("wangle").disabled = false;
-      document.getElementById("altitude").disabled = false;
+      document.getElementById("wangle").readOnly = false;
+      document.getElementById("altitude").readOnly = false;
       document.getElementById("altitude-feet").disabled = false;
       document.getElementById("altitude-meters").disabled = false;
-      document.getElementById("temperature").disabled = false;
+      document.getElementById("temperature").readOnly = false;
       document.getElementById("temp-c").disabled = false;
       document.getElementById("temp-f").disabled = false;
-      document.getElementById("barometric").disabled = false;
-      document.getElementById("humidity").disabled = false;
+      document.getElementById("barometric").readOnly = false;
+      document.getElementById("humidity").readOnly = false;
     } else {
-      document.getElementById("wspeed").disabled = true;
+      document.getElementById("wspeed").readOnly = true;
       document.getElementById("wndspd-mph").disabled = true;
       document.getElementById("wndspd-kph").disabled = true;
-      document.getElementById("wangle").disabled = true;
-      document.getElementById("altitude").disabled = true;
+      document.getElementById("wangle").readOnly = true;
+      document.getElementById("altitude").readOnly = true;
       document.getElementById("altitude-feet").disabled = true;
       document.getElementById("altitude-meters").disabled = true;
-      document.getElementById("temperature").disabled = true;
+      document.getElementById("temperature").readOnly = true;
       document.getElementById("temp-c").disabled = true;
       document.getElementById("temp-f").disabled = true;
-      document.getElementById("barometric").disabled = true;
-      document.getElementById("humidity").disabled = true;
+      document.getElementById("barometric").readOnly = true;
+      document.getElementById("humidity").readOnly = true;
     }
   }
 
@@ -1243,6 +1251,7 @@
 
   window.onload = function() {
     filterzero();
+    enablelocaladjust();
     setdisplayopts();
     filteroutput();
   }

@@ -333,6 +333,11 @@ input[type=number] {
     border-bottom: 1px solid #cecece;
 }
 
+input[type=text]:read-only {
+    pointer-events: none;
+    color: #C6C6C6;
+}
+
 /* Style label to display next to the inputs */
 label {
     display: inline-block;
