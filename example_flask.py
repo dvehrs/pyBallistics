@@ -50,7 +50,7 @@ def base():
             "unit_temp": "fahrenheit",
             "barometric": 29.92,
             "humidity": 50,
-            "localadjust" : False
+            "localadjust" : 'False'
         }
 
         # for base page default values, it seems to be best to not include
@@ -58,6 +58,14 @@ def base():
 
     else:
         return 'Not a valid request method for this route'
+
+#    print("my_data stuff")
+#    for key,value in my_data.items():
+#        print(key, ':', value)
+#    print("------------")
+#    print("Does Python", "automatically add spaces", "between items?")
+#    answer: yes it does.
+#    print("------------")
 
     buildconf = {}
     buildconf['ammunition name'] = 'Configuration'
@@ -74,19 +82,37 @@ def base():
 
     buildconf['drag function'] = my_data['dragfunc'] if 'dragfunc' in my_data else 'G1'
 
-    buildconf['localadjust'] = my_data['localadjust'] if 'localadjust' in my_data else False
-    buildconf['wind - speed'] = float(my_data['wspeed']) if 'wspeed' in my_data else 10
-    buildconf['wind - unit'] = my_data['unit_wndspd'] if 'unit_wndspd' in my_data else "mph"
-    buildconf['wind - angle'] = float(my_data['wangle']) if 'wangle' in my_data else 90
-    buildconf['altitude'] = float(my_data['altitude']) if 'altitude' in my_data else 0
-    buildconf['altitude - unit'] = my_data['unit_altitude'] \
-            if 'unit_altitude' in my_data else "feet"
-    buildconf['temperature'] = float(my_data['temperature']) if 'temperature' in my_data else 59
-    buildconf['temperature - unit'] = my_data['unit_temp'] \
-            if 'unit_temp' in my_data else "fahrenheit"
-    buildconf['barometer'] = float(my_data['barometric']) if 'barometric' in my_data else 29.92
-    buildconf['humidity - relative'] = float(my_data['humidity'])/100 \
-            if 'humidity' in my_data else  0.5
+    buildconf['localadjust'] = my_data['localadjust'] if 'localadjust' in my_data else 'False'
+
+    print("local adjust: \'", my_data['localadjust'], "\'")
+    if "localadjust" in my_data and my_data["localadjust"] == "False":
+        print("true side")
+        print("local adjust: ", buildconf['localadjust'])
+        buildconf['wind - speed'] = 0
+        buildconf['wind - unit'] = "mph"
+        buildconf['wind - angle'] = 0
+        buildconf['altitude'] = 0
+        buildconf['altitude - unit'] = "feet"
+        buildconf['temperature'] = 59
+        buildconf['temperature - unit'] = "fahrenheit"
+        buildconf['barometer'] = 29.92
+        buildconf['humidity - relative'] = 0.5
+    else:
+        print("else side")
+        print("local adjust: ", buildconf['localadjust'])
+        buildconf['wind - speed'] = float(my_data['wspeed']) if 'wspeed' in my_data else 10
+        buildconf['wind - unit'] = my_data['unit_wndspd'] if 'unit_wndspd' in my_data else "mph"
+        buildconf['wind - angle'] = float(my_data['wangle']) if 'wangle' in my_data else 90
+        buildconf['altitude'] = float(my_data['altitude']) if 'altitude' in my_data else 0
+        buildconf['altitude - unit'] = my_data['unit_altitude'] \
+                if 'unit_altitude' in my_data else "feet"
+        buildconf['temperature'] = float(my_data['temperature']) if 'temperature' in my_data else 59
+        buildconf['temperature - unit'] = my_data['unit_temp'] \
+                if 'unit_temp' in my_data else "fahrenheit"
+        buildconf['barometer'] = float(my_data['barometric']) if 'barometric' in my_data else 29.92
+        buildconf['humidity - relative'] = float(my_data['humidity'])/100 \
+                if 'humidity' in my_data else  0.5
+
 
 
     #buildconf['angle - bore'] = float(my_data['bangle']) if 'bangle' in my_data else None
@@ -110,7 +136,16 @@ def base():
 #    print("sight height: ", buildconf['sight height'])
 #    print("zero range: ", buildconf['zero - distance'])
 #    print("zero unit: ", buildconf['zero - unit'])
-    print("local adjust: ", buildconf['localadjust'])
+#    print("local adjust: ", buildconf['localadjust'])
+#    print("wind - speed", buildconf['wind - speed'])
+#    print("wind - unit", buildconf['wind - unit'])
+#    print("wind - angle", buildconf['wind - angle'])
+#    print("altitude", buildconf['altitude'])
+#    print("altitude - unit", buildconf['altitude - unit'])
+#    print("temperature", buildconf['temperature'])
+#    print("temperature - unit", buildconf['temperature - unit'])
+#    print("barometer", buildconf['barometer'])
+#    print("humidity - relative", buildconf['humidity - relative'])
 
     configuration, hold_overs = calcBDC(buildconf)
 
