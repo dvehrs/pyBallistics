@@ -73,7 +73,10 @@ def base():
 
     buildconf['ballistic coefficient'] = float(my_data['bc']) if 'bc' in my_data else 0.120
     buildconf['bullet weight'] = float(my_data['bweight']) if 'bweight' in my_data else 40
+    buildconf['bullet weight - unit'] = my_data['bweight_unit'] \
+            if 'bweight_unit' in my_data else 'grains'
     buildconf['velocity - muzzle'] = int(my_data['muzvel']) if 'muzvel' in my_data else 1050
+    buildconf['velocity - unit'] = my_data['unitsp'] if 'unitsp' in my_data else 'fps'
     buildconf['sight height'] = float(my_data['sheight']) if 'sheight' in my_data else 2
     buildconf['angle - shooting'] = float(my_data['sangle']) if 'sangle' in my_data else 0
     buildconf['zero - distance'] = float(my_data['zerorange']) if 'zerorange' in my_data else 50

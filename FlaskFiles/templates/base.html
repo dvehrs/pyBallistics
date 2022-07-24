@@ -247,10 +247,17 @@
           </div>
           <div class="divTableCell">
             <!-- <<input type="number" name="bweight" value={{ myData.bweight }} required> -->
-            <input type="text" pattern="[0-9]{2,3}" name="bweight" value={{ myData.bweight }} required>
+            <input type="text" pattern="[.0-9]{2,5}" name="bweight" value={{ myData.bweight }} required>
           </div>
           <div class="divTableCell">
-            (grains)
+            <label for="bwu_grains">
+              <input type="radio" id="bwu_grains" name="bweight_unit" value="grains" />
+              Grains
+            </label>
+            <label for="bwu_grams">
+              <input type="radio" id="bwu_grams" name="bweight_unit" value="grams" />
+              Grams
+            </label>
           </div>
         </div>
 
@@ -269,7 +276,8 @@
             </label>
             <label for="mps">
               <input type="radio" id="mps" name="unitsp" value="mps" />
-              MPS
+              <!-- Unicode symbol for meters per second: &#x33a7; -->
+              M/S
             </label>
           </div>
         </div>
@@ -393,7 +401,7 @@
             </label>
             <label for="windspd-kph">
               <input type="radio" id="wndspd-kph" name="unit_windspd" value="kph"  disabled/>
-                KPH
+                Km/h
             </label>
           </div>
         </div>
@@ -716,6 +724,14 @@
   // Muzzle Velocity - FPS (default) or MPS
   radiobtn = document.getElementById("{{ myData.unitsp }}");
   radiobtn.checked = true;
+
+  // Bullet Weight - Grains (default) or Grams
+  if ( "{{ myData.bweight_unit }}" === "grams" ) {
+    bweightbtn = document.getElementById("bwu_grams");
+  } else {
+    bweightbtn = document.getElementById("bwu_grains");
+  }
+  bweightbtn.checked = true;
 
   // Zero Range Unit - Yards (default) or Meters
   if ( "{{ myData.unitzero }}" === "m" ) {

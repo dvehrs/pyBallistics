@@ -231,6 +231,11 @@ def calcBDC(buildconf = {}):
     if bweight_unit == 'grams':
         bw = utils.grams_to_grains(bw)
 
+    # Convert muzzle velocity in meters per second (mps) to
+    # feet per second (fps) for calculations.
+    if velocity_unit == 'mps':
+        v = utils.mps_to_fps(v)
+
     # First find the angle of the bore relative to the sighting system.
     # We call this the "zero angle", since it is the angle required to
     # achieve a zero at a particular yardage.  This value isn't very useful
