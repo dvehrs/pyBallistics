@@ -4,6 +4,7 @@ import atmosphere
 import angles
 import ballistics
 import constants
+import utils
 
 
 def calcBDC(buildconf = {}):
@@ -19,6 +20,11 @@ def calcBDC(buildconf = {}):
     else:
         range_max = constants.BALLISTICS_COMPUTATION_MAX_YARDS
 
+    if 'range - unit' in buildconf:
+        range_unit = buildconf['range - unit']
+    else:
+        range_unit = 'yards'
+
     if 'ballistic coefficient' in buildconf:
         bc = buildconf['ballistic coefficient']
     else:
@@ -29,10 +35,20 @@ def calcBDC(buildconf = {}):
     else:
         bw = 40
 
+    if 'bullet weight - unit' in buildconf:
+        bweight_unit = buildconf['bullet weight - unit']
+    else:
+        bweight_unit = 'grains'
+
     if 'velocity - muzzle' in buildconf:
         v = buildconf['velocity - muzzle']
     else:
         v = 3165
+
+    if 'velocity - unit' in buildconf:
+        velocity_unit = buildconf['velocity - unit']
+    else:
+        velocity_unit = 'fps'
 
     if 'sight height' in buildconf:
         sh  = buildconf['sight height']
@@ -69,6 +85,11 @@ def calcBDC(buildconf = {}):
     else:
         altitude = 0
 
+    if 'altitude - unit' in buildconf:
+        altitude_unit = buildconf['altitude - unit']
+    else:
+        altitude_unit = 'feet'
+
     if 'barometer' in buildconf:
         barometer = buildconf['barometer']
     else:
@@ -78,6 +99,11 @@ def calcBDC(buildconf = {}):
         temperature = buildconf['temperature']
     else:
         temperature = 59
+
+    if 'temperature - unit' in buildconf:
+        temperature_unit = buildconf['temperature - unit']
+    else:
+        temperature_unit = 'fahrenheit'
 
     if 'humidity - relative' in buildconf:
         relative_humidity = buildconf['humidity - relative']
@@ -89,6 +115,11 @@ def calcBDC(buildconf = {}):
     else:
         windspeed = 0
 
+    if 'wind - unit' in buildconf:
+        windspeed_unit = buildconf['wind - unit']
+    else:
+        windspeed_unit = 'mph'
+
     if 'wind - angle' in buildconf:
         windangle = buildconf['wind - angle']
     else:
@@ -97,23 +128,62 @@ def calcBDC(buildconf = {}):
     # Declare empty dictionary to hold configuration settings
     configuration = {}
 
-    configuration['range max'] = range_max
+    if range_unit == 'yards':
+        configuration['range max'] = str(range_max) + ' yards / ' + \
+                str(round(utils.yards_to_meters(range_max))) + ' meters'
+    else:
+        configuration['range max'] = \
+                str(round(utils.meters_to_yards(range_max))) + ' yards / ' + \
+                str(range_max) + ' meters'
+
     configuration['ballistic coefficient - configured'] = bc
-    configuration['velocity'] = v
-    configuration['bullet weight'] = str(bw) + " grains"
+    if velocity_unit == 'fps':
+        configuration['muzzle velocity'] = str(v) + ' fps / ' + \
+                str(round(utils.fps_to_mps(v))) + ' mps'
+    else:
+        configuration['muzzle velocity'] = str(round(utils.mps_to_fps(v))) + \
+                ' fps / ' + str(v) + ' mps'
+    if bweight_unit == "grains":
+        configuration['bullet weight'] = str(bw) + " grains / " + \
+                str(round(utils.grains_to_grams(bw), 2)) + ' grams'
+    else:
+        configuration['bullet weight'] = \
+                str(round(utils.grams_to_grains(bw), 2)) + " grains / " + \
+                str(bw) + ' grams'
     configuration['zero: sight height'] = str(sh)+" inches"
-    configuration['angle - shooting'] = angle
+    configuration['angle - shooting'] = str(angle) + ' degrees'
     if zeroangle is None:
         if zero_unit.lower() == 'm':
-            configuration['zero: distance (configured)'] = str(zero_dist)+" meters"
+            configuration['zero: distance (configured)'] = \
+                    str(round(utils.meters_to_yards(zero_dist))) + ' yards / ' \
+                    + str(zero_dist) + " meters"
         else:
-            configuration['zero: distance (configured)'] = str(zero_dist)+" yards"
-    configuration['local: altitude'] = str(altitude) + ' feet'
-    configuration['local: temperature'] = str(temperature) + ' F'
+            configuration['zero: distance (configured)'] = str(zero_dist) + \
+                    ' yards / ' + str(round(utils.yards_to_meters(zero_dist))) \
+                    + " meters"
+    if temperature_unit == "fahrenheit":
+        configuration['local: temperature'] = str(temperature) + ' F / ' + \
+                      str(utils.degf_to_degc(temperature)) + ' C'
+    else:
+        configuration['local: temperature'] = str(utils.degc_to_degf(temperature)) + \
+                      ' F / ' + str(temperature) + ' C'
+    if altitude_unit == "feet":
+        configuration['local: altitude'] = str(altitude) + ' feet / ' + \
+                str(round(utils.feet_to_meters(altitude))) + ' meters'
+    else:
+        configuration['local: altitude'] = \
+                str(round(utils.meters_to_feet(altitude))) + ' feet / ' + \
+                str(altitude) + ' meters'
     configuration['local: barometer'] = str(barometer) + ' Hg'
     configuration['local: relative humidity'] = str(relative_humidity*100) + ' %'
-    configuration['local: wind speed'] = windspeed
-    configuration['local: wind angle'] = windangle
+    if windspeed_unit == "mph":
+        configuration['local: wind speed'] = str(windspeed) + ' mph / ' + \
+                str(round(utils.mph_to_kph(windspeed))) + ' kph'
+    else:
+        configuration['local: wind speed'] = \
+                str(round(utils.kph_to_mph(windspeed))) + ' mph / ' + \
+                str(windspeed) + ' kph'
+    configuration['local: wind angle'] = str(windangle) + ' degrees'
 
     k = 0
     # The wind speed in miles per hour.
@@ -126,6 +196,14 @@ def calcBDC(buildconf = {}):
 #    barometer = 29.59
 #    temperature = 59
 #    relative_humidity = 0.7
+
+    # Convert altitude in meters to feet for calculations.
+    if altitude_unit == 'meters':
+        altitude = utils.meters_to_feet(altitude)
+
+    # Convert temperature in celcius to fahrenheit for calculations.
+    if temperature_unit == 'celcius':
+        temperature = utils.degc_to_degf(temperature)
 
     # If we wish to use the weather correction features, we need to
     # Correct the BC for any weather conditions.  If we want standard conditions,
@@ -142,7 +220,16 @@ def calcBDC(buildconf = {}):
     # Convert zero range in meters to yards for calculating the zero angle
     if zero_unit.lower() == 'm':
 #        zero_dist = zero_dist*1.093613
-        zero_dist = zero_dist*((100/2.54)/36)
+#        zero_dist = zero_dist*((100/2.54)/36)
+        zero_dist = utils.meters_to_yards(zero_dist)
+
+    # Convert wind speed in kph to mph for calculations.
+    if windspeed_unit == 'kph':
+        windspeed = utils.kph_to_mph(windspeed)
+
+    # Convert bullet weight in grams to grains for calculations.
+    if bweight_unit == 'grams':
+        bw = utils.grams_to_grains(bw)
 
     # First find the angle of the bore relative to the sighting system.
     # We call this the "zero angle", since it is the angle required to

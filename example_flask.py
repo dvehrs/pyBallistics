@@ -9,7 +9,7 @@ from cachetools import cached, TTLCache
 from bdc import calcBDC
 from utils import get_incline_compensation
 from utils import get_cant_compensation
-from utils import fpsToMps
+from utils import fps_to_mps
 from utils import inchToCm
 
 #app = Flask(__name__)
@@ -165,7 +165,7 @@ def base():
             tmpdict["hmil"] = f'{round(point.drift_mil, 2):.2f}'
             tmpdict["time"] = f'{round(point.seconds, 3):.3f}'
             tmpdict["vfps"] = f'{round(point.velocity, 2):.2f}'
-            tmpdict["vmps"] = f'{round(fpsToMps(point.velocity), 2):.2f}'
+            tmpdict["vmps"] = f'{round(fps_to_mps(point.velocity), 2):.2f}'
             tmpdict["kine"] = f'{round(point.kinetic_energy, 2):.2f}'
             my_list.append(tmpdict)
 

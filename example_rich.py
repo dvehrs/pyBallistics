@@ -8,7 +8,7 @@ from rich.table import Table
 from bdc import calcBDC
 from utils import get_incline_compensation
 from utils import get_cant_compensation
-from utils import fpsToMps
+from utils import fps_to_mps
 from utils import inchToCm
 
 #logLevel=logging.DEBUG
@@ -56,6 +56,10 @@ buildconf['bullet weight'] = conffile.getfloat('Build', \
                                                'bullet weight', \
                                                 fallback=40)
 
+buildconf['bullet weight - unit'] = conffile.get('Build', \
+                                                 'bullet weight - unit', \
+                                                 fallback='grains')
+
 buildconf['velocity - muzzle'] = conffile.getint('Build', \
                                               'velocity - muzzle', \
                                                fallback=3165)
@@ -89,11 +93,17 @@ buildconf['drag function'] = conffile.get('Build', 'drag function', \
 buildconf['altitude'] = conffile.getint('Build', 'altitude', \
                                          fallback=0)
 
+buildconf['altitude - unit'] = conffile.get('Build', 'altitude - unit', \
+                                         fallback='feet')
+
 buildconf['barometer'] = conffile.getfloat('Build', 'barometer', \
                                            fallback=29.92)
 
 buildconf['temperature'] = conffile.getfloat('Build', 'temperature', \
                                          fallback=59.0)
+
+buildconf['temperature - unit'] = conffile.get('Build', 'temperature - unit', \
+                                         fallback='fahrenheit')
 
 buildconf['humidity - relative'] = conffile.getfloat('Build', \
                                                      'humidity - relative', \
@@ -101,6 +111,9 @@ buildconf['humidity - relative'] = conffile.getfloat('Build', \
 
 buildconf['wind - speed'] = conffile.getfloat('Build', 'wind - speed', \
                                                fallback=10)
+
+buildconf['wind - unit'] = conffile.get('Build', 'wind - unit', \
+                                               fallback='mph')
 
 buildconf['wind - angle'] = conffile.getint('Build', 'wind - angle', \
                                              fallback=90)
@@ -262,7 +275,7 @@ for point in hold_overs.points:
             velf = '{:.2f}'.format(round(point.velocity, 2))
             if displayconf['Velocity - fps']:
                 fieldlist.append(velf)
-            velm = '{:.2f}'.format(round(fpsToMps(point.velocity), 2))
+            velm = '{:.2f}'.format(round(fps_to_mps(point.velocity), 2))
             if displayconf['Velocity - mps']:
                 fieldlist.append(velm)
             ke = '{:.2f}'.format(round(point.kinetic_energy, 2))
