@@ -48,6 +48,9 @@ buildconf['ammunition name'] = conffile.get('Build', \
 buildconf['range max'] = conffile.getint('Build', 'range max', \
                                            fallback=547)
 
+buildconf['range - unit'] = conffile.get('Build', 'range - unit', \
+                                           fallback='yards')
+
 buildconf['ballistic coefficient'] = conffile.getfloat('Build', \
                                                   'ballistic coefficient', \
                                                    fallback=0.269)
@@ -63,6 +66,10 @@ buildconf['bullet weight - unit'] = conffile.get('Build', \
 buildconf['velocity - muzzle'] = conffile.getint('Build', \
                                               'velocity - muzzle', \
                                                fallback=3165)
+
+buildconf['velocity - unit'] = conffile.get('Build', \
+                                              'velocity - unit', \
+                                               fallback='fps')
 
 buildconf['sight height'] = conffile.getfloat('Build', 'sight height', \
                                            fallback=1.5)
