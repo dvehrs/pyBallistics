@@ -59,6 +59,20 @@ def inchToCm(inch):
     """
     return inch * 2.54
 
+def inhg_to_mbar(pressure):
+    """ This function converts inches of mercury to millibar
+       Input:  pressure = inches of mercury (inHg) of pressure
+       Output: measurement of pressure in mbar (millibar)
+    """
+    return round((pressure * 33.86386), 0)
+
+def inhg_to_mmhg(pressure):
+    """ This function converts inches of mercury to millimeters of mercury.
+       Input:  pressure = inches of mercury (inHg) of pressure
+       Output: measurement of pressure in mmHG (millimeters of mercury)
+    """
+    return round((pressure * 25.4), 2)
+
 def kineticEnergy(vel, weight):
     """ This function returns kinetic energy of a projectile
          Inputs:  vel = velocity in feet per second
@@ -76,6 +90,13 @@ def kph_to_mph(kph):
           Returns: speed in miles per hour
     """
     return kph/1.609344
+
+def mbar_to_inhg(pressure):
+    """ This function converts millibar to inches of mercury
+       Input:  pressure = millibar (mbar) of pressure
+       Output: measurement of pressure in inhg (inches of mercury)
+    """
+    return round((pressure / 33.86386), 2)
 
 def milToInch(mil, feet):
     """ This function us used to convert mils to inches
@@ -121,6 +142,13 @@ def moaToInch(moa, feet):
     """
     mil = moaToMil(moa)
     return milToInch(mil, feet)
+
+def mmhg_to_inhg(pressure):
+    """ This function converts millimeters of mercury to inches of mercury.
+        Input:  pressure = millimeters of mercury (mmHg) of pressure
+        Output: measurement of pressure in inHG (inches of mercury)
+    """
+    return round((pressure / 25.4), 2)
 
 def mph_to_kph(mph):
     """ This function converts from miles per hour (mph) to
