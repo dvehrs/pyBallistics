@@ -205,6 +205,10 @@ def calcBDC(buildconf = {}):
     if temperature_unit == 'celcius':
         temperature = utils.degc_to_degf(temperature)
 
+    # Convert maximum range in meters to yards for calculations.
+    if range_unit == 'meters':
+        range_max = utils.meters_to_yards(range_max)
+
     # If we wish to use the weather correction features, we need to
     # Correct the BC for any weather conditions.  If we want standard conditions,
     # then we can just leave this commented out.
