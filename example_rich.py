@@ -46,7 +46,7 @@ buildconf['ammunition name'] = conffile.get('Build', \
                                              fallback='Configuration')
 
 buildconf['range max'] = conffile.getint('Build', 'range max', \
-                                           fallback=600)
+                                           fallback=547)
 
 buildconf['ballistic coefficient'] = conffile.getfloat('Build', \
                                                   'ballistic coefficient', \
