@@ -95,6 +95,11 @@ def calcBDC(buildconf = {}):
     else:
         barometer = 29.59
 
+    if 'barometer - unit' in buildconf:
+        barometer_unit = buildconf['barometer - unit']
+    else:
+        barometer_unit = 'inhg'
+
     if 'temperature' in buildconf:
         temperature = buildconf['temperature']
     else:
@@ -174,7 +179,25 @@ def calcBDC(buildconf = {}):
         configuration['local: altitude'] = \
                 str(round(utils.meters_to_feet(altitude))) + ' feet / ' + \
                 str(altitude) + ' meters'
-    configuration['local: barometer'] = str(barometer) + ' Hg'
+#    configuration['local: barometer'] = str(barometer) + ' Hg'
+    match barometer_unit:
+        case "mbar":
+            configuration['local: barometer'] = \
+                   str(utils.mbar_to_inhg(barometer)) + ' inHg / ' + \
+                   str(utils.mbar_to_mmhg(barometer)) + ' mmHg / ' + \
+                   str(barometer) + ' mbar'
+        case "mmhg":
+            configuration['local: barometer'] = \
+                   str(utils.mmhg_to_inhg(barometer)) + ' inHg / ' + \
+                   str(barometer) + ' mmHg / ' + \
+                   str(utils.mmhg_to_mbar(barometer)) + ' mbar'
+        case "inhg":
+            configuration['local: barometer'] = \
+                   str(barometer) + ' inHg / ' + \
+                   str(utils.inhg_to_mmhg(barometer)) + ' mmHg / ' + \
+                   str(utils.inhg_to_mbar(barometer)) + ' mbar'
+        case _:
+            configuration['local: barometer'] = 'Unknown Unit: ' + str(barometer_unit)
     configuration['local: relative humidity'] = str(relative_humidity*100) + ' %'
     if windspeed_unit == "mph":
         configuration['local: wind speed'] = str(windspeed) + ' mph / ' + \
@@ -208,6 +231,12 @@ def calcBDC(buildconf = {}):
     # Convert maximum range in meters to yards for calculations.
     if range_unit == 'meters':
         range_max = utils.meters_to_yards(range_max)
+
+    # Convert Barometric Pressure to inches of mercury (inhg) for calculations.
+    if barometer_unit == 'mbar':
+        barometer = utils.mbar_to_inhg(barometer)
+    elif barometer_unit == 'mmhg':
+        barometer = utils.mmhg_to_inhg(barometer)
 
     # If we wish to use the weather correction features, we need to
     # Correct the BC for any weather conditions.  If we want standard conditions,

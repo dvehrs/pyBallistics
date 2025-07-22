@@ -1,8 +1,9 @@
 from bdc import calcBDC
-from utils import inhg_to_mmhg
-from utils import mmhg_to_inhg
-from utils import inhg_to_mbar
-from utils import mbar_to_inhg
+from utils import *
+#from utils import inhg_to_mmhg
+#from utils import mmhg_to_inhg
+#from utils import inhg_to_mbar
+#from utils import mbar_to_inhg
 
 import math
 
@@ -49,3 +50,14 @@ print("  - Converting back to inHg (inches of Mercury)")
 back = mbar_to_inhg(converted)
 print("       equal to %s inHg" % (back))
 
+print()
+print("Starting with 1013 mbar")
+print("  - Converting to millimeters of mercury (mmHg)")
+converted = mbar_to_mmhg(1013)
+print("    equal to %s mmHg" % (converted))
+print("  - Converting to inches of mercury (inHg)")
+converted = mmhg_to_inhg(converted)
+print("    equal to %s inHg" % (converted))
+print("  - Converting back to mbar")
+back = inhg_to_mbar(converted)
+print("    equal to %s mbar" % (back))

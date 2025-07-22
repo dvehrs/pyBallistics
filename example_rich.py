@@ -10,6 +10,12 @@ from utils import get_incline_compensation
 from utils import get_cant_compensation
 from utils import fps_to_mps
 from utils import inchToCm
+from utils import inhg_to_mbar
+from utils import inhg_to_mmhg
+from utils import mbar_to_inhg
+from utils import mbar_to_mmhg
+from utils import mmhg_to_inhg
+from utils import mmhg_to_mbar
 
 #logLevel=logging.DEBUG
 #logLevel=logging.INFO
@@ -105,6 +111,9 @@ buildconf['altitude - unit'] = conffile.get('Build', 'altitude - unit', \
 
 buildconf['barometer'] = conffile.getfloat('Build', 'barometer', \
                                            fallback=29.92)
+
+buildconf['barometer - unit'] = conffile.getfloat('Build', 'barometer - unit', \
+                                           fallback='inhg')
 
 buildconf['temperature'] = conffile.getfloat('Build', 'temperature', \
                                          fallback=59.0)

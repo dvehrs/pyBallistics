@@ -98,6 +98,13 @@ def mbar_to_inhg(pressure):
     """
     return round((pressure / 33.86386), 2)
 
+def mbar_to_mmhg(pressure):
+    """ This function converts millibar to millimeters of mercury
+       Input:  pressure = millibar (mbar) of pressure
+       Output: measurement of pressure in mmhg (millimeters of mercury)
+    """
+    return round((pressure * 0.75006), 2)
+
 def milToInch(mil, feet):
     """ This function us used to convert mils to inches
          Inputs:
@@ -149,6 +156,13 @@ def mmhg_to_inhg(pressure):
         Output: measurement of pressure in inHG (inches of mercury)
     """
     return round((pressure / 25.4), 2)
+
+def mmhg_to_mbar(pressure):
+    """ This function converts millimeters of mercury to mbar
+        Input:  pressure = millimeters of mercury (mmHg) of pressure
+        Output: measurement of pressure in mbar
+    """
+    return round((pressure * 1.333224), 2)
 
 def mph_to_kph(mph):
     """ This function converts from miles per hour (mph) to
