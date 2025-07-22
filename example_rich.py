@@ -112,7 +112,7 @@ buildconf['altitude - unit'] = conffile.get('Build', 'altitude - unit', \
 buildconf['barometer'] = conffile.getfloat('Build', 'barometer', \
                                            fallback=29.92)
 
-buildconf['barometer - unit'] = conffile.getfloat('Build', 'barometer - unit', \
+buildconf['barometer - unit'] = conffile.get('Build', 'barometer - unit', \
                                            fallback='inhg')
 
 buildconf['temperature'] = conffile.getfloat('Build', 'temperature', \
