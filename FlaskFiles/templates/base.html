@@ -459,14 +459,25 @@
         </div>
         <div class="divTableRow">
           <div class="divTableCell sectmidrow">
-            <label for="wangle">Barometric Pressure</label>
+            <label for="barometric">Barometric Pressure</label>
           </div>
           <div class="divTableCell sectmidrow">
             <!-- <input type="number" name="barometric" value={{ myData.barometric }} required> -->
             <input type="text" pattern="[.0-9]{1,5}" id="barometric" name="barometric" value={{ myData.barometric }} readonly="readonly" />
           </div>
           <div class="divTableCell sectmidrow">
-            (hg)
+            <label for="barometer-inhg">
+              <input type="radio" id="barometer-inhg" name="unit_barometer" value="inhg" disabled />
+                inHg
+            </label>
+            <label for="barometer-mmhg">
+              <input type="radio" id="barometer-mmhg" name="unit_barometer" value="mmhg" disabled />
+                mmHg
+            </label>
+            <label for="barometer-mbar">
+              <input type="radio" id="barometer-mbar" name="unit_barometer" value="mbar" disabled />
+                mbar
+            </label>
           </div>
         </div>
         <div class="divTableRow">
@@ -765,6 +776,16 @@
   }
   tempbtn.checked = true;
 
+  // Barometer Unit - inHg, mmHg or mbar
+  if ( "{{ myData.unit_barometer }}" === "mbar" ) {
+    barometerbtn = document.getElementById("barometer-mbar");
+  } else if ( "{{ myData.unit_barometer }}" === "mmhg" ) {
+    barometerbtn = document.getElementById("barometer-mmhg");
+  } else {
+    barometerbtn = document.getElementById("barometer-inhg");
+  }
+  barometerbtn.checked = true;
+
   // Drag Function - G1 by default
   selectbtn = document.getElementById("dragfunc");
   selectbtn.value = "{{ myData.dragfunc }}";
@@ -792,6 +813,9 @@
       document.getElementById("temp-c").disabled = false;
       document.getElementById("temp-f").disabled = false;
       document.getElementById("barometric").readOnly = false;
+      document.getElementById("barometer-inhg").disabled = false;
+      document.getElementById("barometer-mmhg").disabled = false;
+      document.getElementById("barometer-mbar").disabled = false;
       document.getElementById("humidity").readOnly = false;
     } else {
       document.getElementById("wspeed").readOnly = true;
@@ -805,6 +829,9 @@
       document.getElementById("temp-c").disabled = true;
       document.getElementById("temp-f").disabled = true;
       document.getElementById("barometric").readOnly = true;
+      document.getElementById("barometer-inhg").disabled = true;
+      document.getElementById("barometer-mmhg").disabled = true;
+      document.getElementById("barometer-mbar").disabled = true;
       document.getElementById("humidity").readOnly = true;
     }
   }

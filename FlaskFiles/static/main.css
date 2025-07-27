@@ -583,14 +583,14 @@ input[type=submit] {
 .confwide {
     float: left;
     text-align: left;
-    width: 60%;
+    width: 35%;
     white-space: nowrap;
     font-size: 0.6em;
 }
 
 .confnarrow {
     float: left;
-    width: 35%;
+    width: 60%;
     text-align: right;
     white-space: nowrap;
     font-size: 0.6em;
