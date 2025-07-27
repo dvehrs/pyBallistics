@@ -49,6 +49,7 @@ def base():
             "temperature": 59,
             "unit_temp": "fahrenheit",
             "barometric": 29.92,
+            "unit_barometer": "inhg",
             "humidity": 50,
             "localadjust" : 'False'
         }
@@ -99,6 +100,7 @@ def base():
         buildconf['temperature'] = 59
         buildconf['temperature - unit'] = "fahrenheit"
         buildconf['barometer'] = 29.92
+        buildconf['barometer - unit'] = "inhg"
         buildconf['humidity - relative'] = 0.5
     else:
         print("else side")
@@ -113,6 +115,7 @@ def base():
         buildconf['temperature - unit'] = my_data['unit_temp'] \
                 if 'unit_temp' in my_data else "fahrenheit"
         buildconf['barometer'] = float(my_data['barometric']) if 'barometric' in my_data else 29.92
+        buildconf['barometer - unit'] = my_data['unit_barometer'] if 'unit_barometer' in my_data else "inhg"
         buildconf['humidity - relative'] = float(my_data['humidity'])/100 \
                 if 'humidity' in my_data else  0.5
 
