@@ -39,14 +39,29 @@ def solve(range_max, drag_function, drag_coefficient, vi, bulletweight, sight_he
 #    # (1 *  5280) * 12 / 3600 = 17.6
 #    wind_ips = wind_speed * 17.6
 
+#  20250727 - Meters calculation.
+#    Using 3.28084 feet per meter
+#    This makes our individual step equal to  0.82021 feet.
+
+    # for determing the distances at which calculations are made, we work on
+    # intervals of 1 foot or 0.82021 feet.  When we calculate our steps, the
+    # step feet starts at zero but because we will combine step_meters with it
+    # then step meters can start at the first 0.82021 interval.
 #    step_feet = [*range(1, r, 1)]
     step_feet = [*range(0, r, 1)]
-    step_meters = [*np.arange(0.8202, r, 0.8202)]
+    step_meters = [*np.arange(0.82021, r, 0.82021)]
+    # Old test values
+#    step_meters = [*np.arange(0.8202, r, 0.8202)]
     step_combined = np.round(sorted(step_feet + step_meters), 4)
 
+    # Interval yards and meters has the same issue that steps does.  Interval
+    # yards starts at zero and intercal meters starts at the first meter
+    # (3.28084 feet).  That way when combined we only get one zero value.
 #    interval_yards = [*range(3, r, 3)]
     interval_yards = [*range(0, r, 3)]
-    interval_meters = [*np.arange(3.2808, r, 3.2808)]
+    interval_meters = [*np.arange(3.28084, r, 3.28084)]
+    # Old test values
+#    interval_meters = [*np.arange(3.2808, r, 3.2808)]
     interval_combined = set(np.round(sorted(interval_yards + interval_meters), 4))
 
     hwind = windage.headwind(wind_speed, wind_angle)
