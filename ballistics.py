@@ -40,8 +40,21 @@ def solve(range_max, drag_function, drag_coefficient, vi, bulletweight, sight_he
 #    wind_ips = wind_speed * 17.6
 
 #  20250727 - Meters calculation.
-#    Using 3.28084 feet per meter
+#    Testing 3.28084 feet per meter
 #    This makes our individual step equal to  0.82021 feet.
+#
+#    Also tested with 3.280839895 and 0.82020997375
+#
+#   NEED TO REMEMBER TO CHANGE THE INTERVAL VALUE USED HERE BELOW IN DISPLAY
+#   LOOP.  When they do not match, we will start seeing values skipped after 410
+#   meters or so.
+#
+#   From testing there does not appear to be a difference between using 3.28084
+#   and 3.280839895.  However there is a small difference in the Drop and Drift
+#   Inches when using 3.2808.  So it appears that we need to go at least 5
+#   decimal places into the value even though this value has been rounded up.
+#
+#    Using 3.28084 feet per meter
 
     # for determing the distances at which calculations are made, we work on
     # intervals of 1 foot or 0.82021 feet.  When we calculate our steps, the
@@ -52,6 +65,7 @@ def solve(range_max, drag_function, drag_coefficient, vi, bulletweight, sight_he
     step_meters = [*np.arange(0.82021, r, 0.82021)]
     # Old test values
 #    step_meters = [*np.arange(0.8202, r, 0.8202)]
+#    step_meters = [*np.arange(0.82020997375, r, 0.82020997375)]
     step_combined = np.round(sorted(step_feet + step_meters), 4)
 
     # Interval yards and meters has the same issue that steps does.  Interval
@@ -62,6 +76,7 @@ def solve(range_max, drag_function, drag_coefficient, vi, bulletweight, sight_he
     interval_meters = [*np.arange(3.28084, r, 3.28084)]
     # Old test values
 #    interval_meters = [*np.arange(3.2808, r, 3.2808)]
+#    interval_meters = [*np.arange(3.280839895, r, 3.280839895)]
     interval_combined = set(np.round(sorted(interval_yards + interval_meters), 4))
 
     hwind = windage.headwind(wind_speed, wind_angle)
@@ -107,7 +122,12 @@ def solve(range_max, drag_function, drag_coefficient, vi, bulletweight, sight_he
             range_yards = '{:.2f}'.format(round(STEP/3, 2))
 #            print("range_yards {}".format(range_yards))
             logger.info("range_yards {}".format(range_yards))
-            range_meters = '{:.2f}'.format(round(STEP/3.2808, 2))
+            # Interval size for meters here needs to match what was used above.
+            range_meters = '{:.2f}'.format(round(STEP/3.28084, 2))
+            # Old Test Values - See notes on why we choose the value to use
+            #                   above.
+#            range_meters = '{:.2f}'.format(round(STEP/3.2808, 2))
+#            range_meters = '{:.2f}'.format(round(STEP/3.280839895, 2))
 #            print("range_meters {}".format(range_meters))
             logger.info("range_meters {}".format(range_meters))
             if x == 0:

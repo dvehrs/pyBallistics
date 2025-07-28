@@ -121,7 +121,7 @@ def meters_to_feet(meters):
           Output:  none
           Returns: distance in feet
     """
-    return meters * 3.280839895
+    return meters * 3.28084
 
 def meters_to_yards(meters):
     """ This function converts a distance in meters to yards.
@@ -180,7 +180,7 @@ def mps_to_fps(mps):
           Output:  none
           Returns: speed in feet per second
     """
-    return mps*3.2808
+    return mps*3.28084
 
 def yards_to_meters(yards):
     """ This function converts a distance in yards to meters.
