@@ -54,6 +54,10 @@ def solve(range_max, drag_function, drag_coefficient, vi, bulletweight, sight_he
 #   Inches when using 3.2808.  So it appears that we need to go at least 5
 #   decimal places into the value even though this value has been rounded up.
 #
+#   Interesting that will changing this value did create slightly different
+#   values for drop and drift, it did not appear the change the recommended MOA
+#   or MIL adjustments.
+#
 #    Using 3.28084 feet per meter
 
     # for determing the distances at which calculations are made, we work on
