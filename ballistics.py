@@ -56,9 +56,14 @@ def solve(range_max, drag_function, drag_coefficient, vi, bulletweight, sight_he
 #
 #   Interesting that will changing this value did create slightly different
 #   values for drop and drift, it did not appear the change the recommended MOA
-#   or MIL adjustments.
+#   or MIL adjustments. Difference was generally less than a couple thousandths
+#   of an inch and started happening just over 800 yards or 800 meters.
 #
-#    Using 3.28084 feet per meter
+#   Continued testing at ranges longer than 1000 meters appeared to introduce a
+#   continued progression of the same small discrepancy in the drift and drop
+#   values.
+#
+#   Using 3.280839895
 
     # for determing the distances at which calculations are made, we work on
     # intervals of 1 foot or 0.82021 feet.  When we calculate our steps, the
@@ -66,10 +71,10 @@ def solve(range_max, drag_function, drag_coefficient, vi, bulletweight, sight_he
     # then step meters can start at the first 0.82021 interval.
 #    step_feet = [*range(1, r, 1)]
     step_feet = [*range(0, r, 1)]
-    step_meters = [*np.arange(0.82021, r, 0.82021)]
+    step_meters = [*np.arange(0.82020997375, r, 0.82020997375)]
     # Old test values
 #    step_meters = [*np.arange(0.8202, r, 0.8202)]
-#    step_meters = [*np.arange(0.82020997375, r, 0.82020997375)]
+#    step_meters = [*np.arange(0.82021, r, 0.82021)]
     step_combined = np.round(sorted(step_feet + step_meters), 4)
 
     # Interval yards and meters has the same issue that steps does.  Interval
@@ -77,10 +82,10 @@ def solve(range_max, drag_function, drag_coefficient, vi, bulletweight, sight_he
     # (3.28084 feet).  That way when combined we only get one zero value.
 #    interval_yards = [*range(3, r, 3)]
     interval_yards = [*range(0, r, 3)]
-    interval_meters = [*np.arange(3.28084, r, 3.28084)]
+    interval_meters = [*np.arange(3.280839895, r, 3.280839895)]
     # Old test values
 #    interval_meters = [*np.arange(3.2808, r, 3.2808)]
-#    interval_meters = [*np.arange(3.280839895, r, 3.280839895)]
+#    interval_meters = [*np.arange(3.28084, r, 3.28084)]
     interval_combined = set(np.round(sorted(interval_yards + interval_meters), 4))
 
     hwind = windage.headwind(wind_speed, wind_angle)
@@ -127,11 +132,11 @@ def solve(range_max, drag_function, drag_coefficient, vi, bulletweight, sight_he
 #            print("range_yards {}".format(range_yards))
             logger.info("range_yards {}".format(range_yards))
             # Interval size for meters here needs to match what was used above.
-            range_meters = '{:.2f}'.format(round(STEP/3.28084, 2))
+            range_meters = '{:.2f}'.format(round(STEP/3.280839895, 2))
             # Old Test Values - See notes on why we choose the value to use
             #                   above.
 #            range_meters = '{:.2f}'.format(round(STEP/3.2808, 2))
-#            range_meters = '{:.2f}'.format(round(STEP/3.280839895, 2))
+#            range_meters = '{:.2f}'.format(round(STEP/3.28084, 2))
 #            print("range_meters {}".format(range_meters))
             logger.info("range_meters {}".format(range_meters))
             if x == 0:
