@@ -468,12 +468,20 @@ input[type=submit] {
 
 .divTableCell,
 .divTableHead {
-    /* border: 1px solid #999999; */
+    border: 1px solid #999999;
     display: table-cell;
     padding: 3px 10px;
     white-space: nowrap;
     font-size: 0.8em;
     /* align: left; */
+}
+
+.titlecell {
+}
+
+.namecell {
+    border: 1px solid red;
+    overflow-x: visible;
 }
 
 /* Special formating for left columns */
