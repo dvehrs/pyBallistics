@@ -31,6 +31,7 @@ def base():
     elif request.method == 'GET':
         # Returns base page
         my_data={
+            "ammoname": "thisIsAReallyLongStringToSeeHowItDisplays",
             "dragfunc": "G1",
             "bc": 0.121,
             "bweight": 41,
@@ -60,10 +61,10 @@ def base():
     else:
         return 'Not a valid request method for this route'
 
-#    print("my_data stuff")
-#    for key,value in my_data.items():
-#        print(key, ':', value)
-#    print("------------")
+    print("my_data stuff")
+    for key,value in my_data.items():
+        print(key, ':', value)
+    print("------------")
 #    print("Does Python", "automatically add spaces", "between items?")
 #    answer: yes it does.
 #    print("------------")
