@@ -1,4 +1,6 @@
 
+To run:
+  flask --app example_flask.py run
 
 Packages to install on Debian:
   python3-flask
